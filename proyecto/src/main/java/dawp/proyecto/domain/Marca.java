@@ -18,7 +18,7 @@ public class Marca implements Serializable {
     private Long idMarca; //MySQL => id_marca PK
     private String descripcion; //MySQL => descripcion
     private String imagen; //MySQL => imagen
-    private Boolean activo; //MySQL => activo
+    private boolean activo; //MySQL => activo
 
     //Constructores
     public Marca() {

@@ -23,7 +23,7 @@ public class Producto implements Serializable {
     private Double precio; //MySQL => precio
     private Integer existencias; //MySQL => existencias
     private String imagen; //MySQL => imagen
-    private Boolean activo; //MySQL => activo
+    private boolean activo; //MySQL => activo
 
     //Constructores
     public Producto() {

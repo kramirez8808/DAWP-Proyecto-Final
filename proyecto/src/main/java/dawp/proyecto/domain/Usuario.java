@@ -24,7 +24,7 @@ public class Usuario implements Serializable{
     private String email; //MySQL => email
     private String telefono; //MySQL => telefono
     private String imagen; //MySQL => imagen
-    private Boolean activo; //MySQL => activo
+    private boolean activo; //MySQL => activo
 
     //Constructores
     public Usuario() {
