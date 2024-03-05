@@ -17,6 +17,7 @@ public class Usuario implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremental
     @Column(name = "id_usuario")
     private Long idUsuario; //MySQL => id_usuario PK
+    private Long idRol; //MySQL => id_rol FK
     private String username; //MySQL => username
     private String password; //MySQL => password
     private String nombre; //MySQL => nombre
@@ -30,8 +31,9 @@ public class Usuario implements Serializable{
     public Usuario() {
     }
 
-    public Usuario(Long idUsuario, String username, String password, String nombre, String apellido, String email, String telefono, String imagen, Boolean activo) {
+    public Usuario(Long idUsuario, Long idRol, String username, String password, String nombre, String apellido, String email, String telefono, String imagen, Boolean activo) {
         this.idUsuario = idUsuario;
+        this.idRol = idRol;
         this.username = username;
         this.password = password;
         this.nombre = nombre;

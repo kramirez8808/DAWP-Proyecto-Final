@@ -41,6 +41,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 /*Se crea la tabla de clientes llamada cliente... igual que la clase Cliente */
 CREATE TABLE sneakers_society.usuario (
   id_usuario INT NOT NULL AUTO_INCREMENT,
+  id_rol INT NOT NULL,
   username VARCHAR(20) NOT NULL,
   password VARCHAR(256) NOT NULL, /* Posible modificación de longitud o tipo para hacer match con el encriptado */
   nombre VARCHAR(20) NOT NULL,
@@ -49,7 +50,8 @@ CREATE TABLE sneakers_society.usuario (
   telefono VARCHAR(15) NULL,
   imagen varchar(1024),
   activo boolean,
-  PRIMARY KEY (id_usuario)
+  PRIMARY KEY (id_usuario),
+  foreign key fk_id_rol (id_rol) references rol(id_rol)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -81,10 +83,8 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 create table sneakers_society.rol (
   id_rol INT NOT NULL AUTO_INCREMENT,
-  descripcion varchar(20),
-  id_usuario int,
-  PRIMARY KEY (id_rol),
-  foreign key fk_rol_usuario (id_usuario) references usuario(id_usuario)
+  descripcion VARCHAR(20),
+  PRIMARY KEY (id_rol)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
