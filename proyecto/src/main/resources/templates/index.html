@@ -1,95 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Zapatos</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">
-                    <img src="logo.png" alt="Logo de la tienda">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="marcas.html">Marcas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="hombre.html">Hombre</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="mujer.html">Mujer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="nino.html">Niño</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="estilos.html">Estilos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contacto.html">Contacto</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
-                    </form>
-                </div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org">
+    <!-- Head Fragment -->
+    <head th:replace="layout/template :: head">
+    </head>
+    <body>
+        <!-- Header Fragment -->
+        <header th:replace="layout/template :: header"></header>
+        
+        <!-- Main Content -->
+        <main class="container my-5">
+            <div class="jumbotron">
+                <h1 class="display-4">Novedades</h1>
+                <p class="lead">Descubre las últimas tendencias en calzado.</p>
             </div>
-        </nav>
-    </header>
-
-    <main class="container my-5">
-        <div class="jumbotron">
-            <h1 class="display-4">Novedades</h1>
-            <p class="lead">Descubre las últimas tendencias en calzado.</p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/zapato1.jpg" class="card-img-top" alt="Zapato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Jordan 1 low (White/Ice Blue)</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="img/zapato1.jpg" class="card-img-top" alt="Zapato 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Jordan 1 low (White/Ice Blue)</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="img/zapato2.jpg" class="card-img-top" alt="Zapato 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Jordan 3 Retro Palomino</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="img/zapato3.jpg" class="card-img-top" alt="Zapato 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Adidas grand court base beyond</h5>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/zapato2.jpg" class="card-img-top" alt="Zapato 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Jordan 3 Retro Palomino</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/zapato3.jpg" class="card-img-top" alt="Zapato 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Adidas grand court base beyond</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+        </main>
 
-    <footer class="bg-dark text-white py-3">
-        <div class="container">
-            <p>&copy; 2023 Tienda de Zapatos. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+        <!-- Footer Fragment -->
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
 </html>
