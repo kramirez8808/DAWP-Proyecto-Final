@@ -25,7 +25,6 @@ public class Rol implements Serializable {
 
     public Rol(Long idRol, String nombre, String descripcion) {
         this.idRol = idRol;
-        this.nombre = nombre;
         this.descripcion = descripcion;
     }
     
