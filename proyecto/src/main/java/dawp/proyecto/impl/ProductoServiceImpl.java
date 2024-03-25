@@ -51,14 +51,14 @@ public class ProductoServiceImpl implements ProductoService {
     //Método SaveProducto
     @Override
     @Transactional
-    public void saveProducto(Producto producto) {
+    public void save(Producto producto) {
         productoDao.save(producto);
     }
 
     //Método DeleteProducto
     @Override
     @Transactional
-    public void deleteProducto(Producto producto) {
+    public void delete(Producto producto) {
         productoDao.delete(producto);
     }
     

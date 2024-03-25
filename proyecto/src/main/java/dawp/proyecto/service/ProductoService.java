@@ -18,8 +18,8 @@ public interface ProductoService {
     public Producto getProducto(Producto producto);
 
     //SaveProducto: Guarda o actualiza un producto existente
-    public void saveProducto(Producto producto);
+    public void save(Producto producto);
 
     //DeleteProducto: Elimina un producto existente
-    public void deleteProducto(Producto producto);
+    public void delete(Producto producto);
 }

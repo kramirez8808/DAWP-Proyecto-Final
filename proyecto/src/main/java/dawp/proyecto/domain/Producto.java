@@ -14,29 +14,33 @@ public class Producto implements Serializable {
 
     //Atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //Campo Auto-Incremental
     @Column(name = "id_producto")
-    private Long idProducto; //MySQL => id_producto PK
-    private Long idMarca; //MySQL => id_marca FK
+    private Long idProducto; //Hibernate lo transforma/MySQL => id_producto PK
     private String descripcion; //MySQL => descripcion
     private String detalle; //MySQL => detalle
-    private Double precio; //MySQL => precio
-    private Integer existencias; //MySQL => existencias
-    private String imagen; //MySQL => imagen
+    private double precio; //MySQL => precio
+    private int existencias; //MySQL => existencias
+    private String rutaImagen; //MySQL => ruta_imagen
     private boolean activo; //MySQL => activo
+    //private Long idCategoria; //MySQL => id_categoria FK
+    
+    //Relación con la tabla Categoria
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    Categoria categoria; //MySQL => id_categoria FK
 
     //Constructores
     public Producto() {
     }
 
-    public Producto(Long idProducto, Long idMarca, String descripcion, String detalle, Double precio, Integer existencias, String imagen, Boolean activo) {
-        this.idProducto = idProducto;
-        this.idMarca = idMarca;
+    public Producto(String descripcion, String detalle, double precio, int existencias, String rutaImagen, boolean activo) {
         this.descripcion = descripcion;
         this.detalle = detalle;
         this.precio = precio;
         this.existencias = existencias;
-        this.imagen = imagen;
+        this.rutaImagen = rutaImagen;
         this.activo = activo;
     }
+    
 }
