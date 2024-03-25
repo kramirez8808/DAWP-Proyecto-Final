@@ -1,48 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org">
-    <!-- Head Fragment -->
-    <head th:replace="layout/template :: head">
+
+<html xmlns="http://www.w3.org/1999/xhtml"      
+    xmlns:th="http://www.thymeleaf.org">
+    
+    <head th:replace="layout/Plantilla :: head">
+        
+       
     </head>
     <body>
-        <!-- Header Fragment -->
-        <header th:replace="layout/template :: header"></header>
-        
-        <!-- Main Content -->
-        <main class="container my-5">
-            <div class="jumbotron">
-                <h1 class="display-4">Novedades</h1>
-                <p class="lead">Descubre las últimas tendencias en calzado.</p>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="img/zapato1.jpg" class="card-img-top" alt="Zapato 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Jordan 1 low (White/Ice Blue)</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="img/zapato2.jpg" class="card-img-top" alt="Zapato 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Jordan 3 Retro Palomino</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="img/zapato3.jpg" class="card-img-top" alt="Zapato 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Adidas grand court base beyond</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer Fragment -->
-        <footer th:replace="layout/template :: footer"></footer>
+        <header th:replace="layout/Plantilla :: header"></header>
+        <footer th:replace="layout/Plantilla :: footer"></footer>
+       
     </body>
 </html>
