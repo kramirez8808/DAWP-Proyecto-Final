@@ -1,31 +1,32 @@
 package dawp.proyecto.domain;
 
-// ------ IMPORTS ------
-import lombok.Data;
-import jakarta.persistence.*;
+// ------ EXTERNAL IMPORTS ------
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
-@Data
+// ------ INTERNAL IMPORTS ------
+
 @Entity
+@Data
 @Table(name = "rol")
 public class Rol implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
-    //Atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremental
-    @Column(name = "id_rol")
-    private Long idRol; //MySQL => id_rol PK
-    private String descripcion; //MySQL => descripcion
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idRol; //Hibernate lo transforma/MySQL => id_rol PK
 
-    //Constructores
-    public Rol() {
-    }
+    @NotEmpty
+    private String nombre; //MySQL => nombre
 
-    public Rol(Long idRol, String nombre, String descripcion) {
-        this.idRol = idRol;
-        this.descripcion = descripcion;
-    }
-    
+    @Column(name = "id_usuario")
+    private Long idUsuario; //MySQL => id_usuario FK
 }

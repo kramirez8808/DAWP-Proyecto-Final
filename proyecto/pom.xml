@@ -43,8 +43,8 @@
 			<scope>test</scope>
 		</dependency>
                 
-                <!-- DEPENDENCIAS ADICIONALES -->
-                <!-- Dependencias de Semana 04: Bootstrap, Font-Awesome, JQuery, Popper.js, Web Jars Locator -->
+        <!-- DEPENDENCIAS ADICIONALES -->
+        <!-- Dependencias de Semana 04: Bootstrap, Font-Awesome, JQuery, Popper.js, Web Jars Locator -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -70,6 +70,7 @@
 			<artifactId>webjars-locator</artifactId>
 			<version>0.46</version>
 		</dependency>
+
 		<!-- Dependencias de Semana 05: MySQL e Hibernate -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -80,12 +81,31 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<!-- Dependencias de Semana 06: Firebase -->
 		<dependency>
                     <groupId>com.google.firebase</groupId>
                     <artifactId>firebase-admin</artifactId>
                     <version>9.1.1</version>
-		</dependency> 
+		</dependency>
+
+		<!-- Dependencias de Semana 09: Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+
+		<!-- Dependencias de Semana 10: Javax Validation -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

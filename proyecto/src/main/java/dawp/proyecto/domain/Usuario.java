@@ -1,46 +1,44 @@
 package dawp.proyecto.domain;
 
-// ------ IMPORTS ------
-import lombok.Data;
-import jakarta.persistence.*;
+// ------ EXTERNAL IMPORTS ------
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
-@Data
+// ------ INTERNAL IMPORTS ------
+
 @Entity
+@Data
 @Table(name = "usuario")
-public class Usuario implements Serializable{
-    
+public class Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    //Atributos
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremental
-    @Column(name = "id_usuario")
-    private Long idUsuario; //MySQL => id_usuario PK
-    private Long idRol; //MySQL => id_rol FK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idUsuario; //Hibernate lo transforma/MySQL => id_usuario PK
+    
+    @NotEmpty
     private String username; //MySQL => username
+    
+    @NotEmpty
     private String password; //MySQL => password
     private String nombre; //MySQL => nombre
-    private String apellido; //MySQL => apellido
-    private String email; //MySQL => email
+    private String apellidos; //MySQL => apellidos
+    private String correo; //MySQL => correo
     private String telefono; //MySQL => telefono
-    private String imagen; //MySQL => imagen
+    private String rutaImagen; //MySQL => ruta_imagen
     private boolean activo; //MySQL => activo
 
-    //Constructores
-    public Usuario() {
-    }
-
-    public Usuario(Long idUsuario, Long idRol, String username, String password, String nombre, String apellido, String email, String telefono, String imagen, Boolean activo) {
-        this.idUsuario = idUsuario;
-        this.idRol = idRol;
-        this.username = username;
-        this.password = password;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.telefono = telefono;
-        this.imagen = imagen;
-        this.activo = activo;
-    }
+    @OneToMany
+    @JoinColumn(name = "id_usuario")
+    private List<Rol> roles; //Relación con la tabla Rol
 }

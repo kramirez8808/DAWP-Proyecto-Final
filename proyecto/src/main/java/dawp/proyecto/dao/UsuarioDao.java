@@ -8,4 +8,7 @@ import dawp.proyecto.domain.Usuario;
 
 public interface UsuarioDao extends JpaRepository<Usuario, Long> {
     
+    //Método para buscar un usuario por su username
+    Usuario findByUsername(String username);
+
 }
