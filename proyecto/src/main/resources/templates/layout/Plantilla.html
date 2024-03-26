@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <!-- Head Fragment -->
+    <head th:fragment="head">
+        <title>Sneakers Society</title>
+        <meta charset="UTF-8" />
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+        <!-- Custom CSS -->
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background-color: #f8f9fa;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+
+            .header {
+                background-color: #343a40;
+            }
+
+            .navbar-brand img {
+                max-height: 50px;
+            }
+
+            .navbar-nav {
+                margin-left: auto;
+            }
+
+            .navbar-nav .nav-item {
+                margin-left: 15px;
+            }
+
+            .form-inline {
+                margin-left: auto;
+            }
+
+            footer {
+                text-align: center;
+                background-color: #343a40;
+                color: #fff;
+                margin-top: 50px;
+                padding: 20px 0;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header Fragment -->
+        <header th:fragment="header" class="header">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="Plantilla.html">
+
+                        <img src="static/images/Logo.png" alt="Logo pagina"/>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>
+
+                        </ul>
+                      <form class="form-inline my-2 my-lg-0">
+    <input class="form-control form-control-sm mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+    <button class="btn btn-outline-light my-2 my-sm-0 ml-auto" type="submit">Buscar</button>
+</form>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Footer Fragment -->
+        <footer th:fragment="footer" class="bg-dark text-white py-3">
+            <div class="container">
+                <p>&copy; 2023 Tienda de Zapatos. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </body>
+</html>
