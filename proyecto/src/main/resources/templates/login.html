@@ -46,8 +46,10 @@
                         </div>
                     </div>
                     <div th:if="${param.error != null}">
-                        <h3>[[#{error.login}]]</h3>
+                        
+                        <div class="card text-white bg-danger mb-3" style="max-width: 18rem;"><h3>[[#{error.login}]]</h3>
                     </div>
+                        </div>
                 </div>
             </div>
         </div>
