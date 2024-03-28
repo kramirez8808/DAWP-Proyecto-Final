@@ -10,54 +10,55 @@
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Custom CSS -->
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                background-color: #f8f9fa;
-            }
+            <!-- Custom CSS -->
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    background-color: #f8f9fa;
+                }
 
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 15px;
-            }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0 15px;
+                }
 
-            .header {
-                background-color: #343a40;
-            }
+                .header {
+                    background-color: #343a40;
+                }
 
-            .navbar-brand img {
-                max-height: 50px;
-            }
+                .navbar-brand img {
+                    max-height: 50px;
+                }
 
-            .navbar-nav {
-                margin-left: auto;
-            }
+                .navbar-nav {
+                    margin-left: auto;
+                }
 
-            .navbar-nav .nav-item {
-                margin-left: 15px;
-            }
+                .navbar-nav .nav-item {
+                    margin-left: 15px;
+                }
 
-            .form-inline {
-                margin-left: auto;
-            }
+                .form-inline {
+                    margin-left: auto;
+                }
 
-            footer {
-                text-align: center;
-                background-color: #343a40;
-                color: #fff;
-                margin-top: 50px;
-                padding: 20px 0;
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-            }
-        </style>
+                footer {
+                    text-align: center;
+                    background-color: #343a40;
+                    color: #fff;
+                    margin-top: 50px;
+                    padding: 20px 0;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                }
+            </style>
     </head>
     <body>
         <!-- Header Fragment -->
@@ -73,16 +74,19 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ml-auto">
+                        <ul class="navbar-nav"sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>
 
                         </ul>
-                      <form class="form-inline my-2 my-lg-0">
-    <input class="form-control form-control-sm mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-    <button class="btn btn-outline-light my-2 my-sm-0 ml-auto" type="submit">Buscar</button>
-</form>
+                        <form class="form-inline my-2 my-lg-0">
+                            <div class="input-group">
+                                <input class="form-control form-control-sm" type="search" placeholder="Buscar" aria-label="Search">
+                                    <button class="btn btn-outline-light btn-sm" type="submit"><i class="bi bi-search"></i></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </nav>
