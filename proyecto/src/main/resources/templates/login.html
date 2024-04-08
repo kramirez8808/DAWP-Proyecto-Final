@@ -37,16 +37,17 @@
                                             <a th:href="@{/registro/recordar}" class="btn" style="color: white;"><i class="fa-solid fa-message"></i> [[#{accion.recordar}]]</a>
                                         </button>
                                         <button class="btn btn-login btn-dark" type="submit">
-                                           <span class="btn" style="color: white;"><i class="fa-solid fa-door-open"></i> [[#{login.aceptar}]]</span>
-                                        </button>
+                                          <span class="btn" style="color: white"><i class="fas fa-sign-in-alt"></i> [[#{login.aceptar}]]</span></button>
+                                      
                                     </div>
                                 </div>
+                                
 
                             </form>
                         </div>
                     </div>
                     <div th:if="${param.error != null}">
-                        
+                      
                         <div class="card text-white bg-danger mb-3" style="max-width: 18rem;"><h3>[[#{error.login}]]</h3>
                     </div>
                         </div>
