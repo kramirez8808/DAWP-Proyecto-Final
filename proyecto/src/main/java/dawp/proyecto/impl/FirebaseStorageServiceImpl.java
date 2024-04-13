@@ -6,7 +6,6 @@ import com.google.auth.ServiceAccountSigner;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage.SignUrlOption;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

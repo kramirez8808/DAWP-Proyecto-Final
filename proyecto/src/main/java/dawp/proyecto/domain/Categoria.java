@@ -22,7 +22,7 @@ public class Categoria implements Serializable {
     @Column(name = "id_categoria")
     private Long idCategoria; //Hibernate lo transforma/MySQL => id_categoria PK
     private String descripcion; //MySQL => descripcion
-    private String rutaImagen; //MySQL => ruta_imagen
+    private String imagen; //MySQL => ruta_imagen
     private boolean activo; //MySQL => activo
 
     //Relación con la tabla Producto
@@ -34,9 +34,9 @@ public class Categoria implements Serializable {
     public Categoria() {
     }
 
-    public Categoria(String descripcion, String rutaImagen, boolean activo) {
+    public Categoria(String descripcion, String imagen, boolean activo) {
         this.descripcion = descripcion;
-        this.rutaImagen = rutaImagen;
+        this.imagen = imagen;
         this.activo = activo;
     }
 }

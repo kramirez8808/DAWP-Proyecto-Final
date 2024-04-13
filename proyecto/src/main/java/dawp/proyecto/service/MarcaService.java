@@ -8,18 +8,22 @@ import dawp.proyecto.domain.Marca;
 
 public interface MarcaService {
     
-    //GetMarcas: Devuelve una lista con todas las marcas
+    //GetMarcas: Devuelve una lista con todos los marcas
     public List<Marca> getMarcas();
 
-    //GetMarcasActivas: Devuelve una lista con todas las marcas activas
+    //GetMarcasActivas: Devuelve una lista con todos los marcas activos
     public List<Marca> getMarcasActivas(boolean activos);
 
-    //GetMarca: Devuelve una marca por su ID
+    //GetMarca: Devuelve un marca por su ID
     public Marca getMarca(Marca marca);
 
-    //SaveMarca: Guarda o actualiza una marca existente
-    public void saveMarca(Marca marca);
+    //Save: Guarda o actualiza un marca existente
+    public void save(Marca marca);
 
-    //DeleteMarca: Elimina una marca existente
-    public void deleteMarca(Marca marca);   
+    //Delete: Elimina un marca existente
+    public void delete(Marca marca);
+
+    //BuscarPorDescripcion: Busca una marca por su descripcion
+    public List<Marca> buscarPorDescripcion(String descripcion);
+
 }

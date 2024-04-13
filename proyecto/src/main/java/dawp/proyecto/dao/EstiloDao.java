@@ -1,14 +1,14 @@
 package dawp.proyecto.dao;
 
 // ------ EXTERNAL IMPORTS ------
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 // ------ INTERNAL IMPORTS ------
-import dawp.proyecto.domain.Categoria;
+import dawp.proyecto.domain.Estilo;
 
-public interface CategoriaDao extends JpaRepository<Categoria, Long> {
+public interface EstiloDao extends JpaRepository<Estilo, Long> {
     
     // Método para buscar Categoria por Descripcion
-    List<Categoria> findByDescripcion(String descripcion);
+    List<Estilo> findByDescripcion(String descripcion);
 }

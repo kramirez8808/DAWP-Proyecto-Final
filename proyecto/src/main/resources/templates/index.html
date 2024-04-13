@@ -1,15 +1,39 @@
 <!DOCTYPE html>
+<html class="h-100"
+      data-bs-theme="dark"
+      lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
-<html xmlns="http://www.w3.org/1999/xhtml"      
-    xmlns:th="http://www.thymeleaf.org">
-    
-    <head th:replace="layout/Plantilla :: head">
-        
-       
-    </head>
-    <body>
-        <header th:replace="layout/Plantilla :: header"></header>
-        <footer th:replace="layout/Plantilla :: footer"></footer>
-       
-    </body>
+  <head th:replace="layout/template :: head"></head>
+
+  <body class="d-flex h-100 text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <header th:replace="layout/template :: header"></header>
+
+        <!-- Cover Page del Index -->
+        <div>
+            <main>
+                <h1>Novedades</h1>
+
+                <!-- Grid para los Cards -->
+                <div class="container text-center mt-5" id="productos">
+                    <div class="row">
+                        <div th:each="producto, iterStat : ${productos}"  th:if="${iterStat.index &lt; 2 or iterStat.index == 2}" class="col mx-5">
+                            <!-- Card del producto -->
+                            <div class="card mx-auto">
+                                <img th:src="${producto.imagen}" class="card-img-top" alt="..." />
+                                <div class="card-body">
+                                    <h5 th:text="${producto.descripcion}" class="card-title text-dark"></h5>
+                                    <a th:href="@{/producto/}+${producto.idProducto}" class="btn btn-primary">Ver Detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer th:replace="layout/template :: footer"></footer>
+    </div>
+  </body>
 </html>

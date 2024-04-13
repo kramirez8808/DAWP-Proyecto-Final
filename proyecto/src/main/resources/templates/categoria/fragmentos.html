@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/template :: head}">
+        <title>Sneakers Society</title>
+    </head>
+    <body>
+        <!-- 1. Boton Agregar: Llama a un Modal -->
+        <div th:fragment="botonesAgregar" class="dropup position-fixed bottom-0 end-0 rounded-circle m-5" style="translate: -80% -80%;
+             text-align: center;">
+            <button type="button" class="btn btn-success btn-lg" style="transform: scale(130%);"
+                    data-bs-toggle="modal"
+                    data-bs-target="#agregarCategoria"
+                    aria-expanded="false" 
+                    aria-haspopup="true">
+                <i class="fa-solid fa-plus" style="transform: scale(130%);"></i>
+                <span class="visually-hidden">Añadir</span>
+            </button>
+        </div>
+
+        <!-- 2. Modal Agregar: Modal para agregar la categoria -->
+        <section th:fragment="agregarCategoria">
+            <div id="agregarCategoria" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="agregarCategoriaModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white text-center">
+                            <h5 class="modal-title" id="agregarCategoriaModalLabel">Añadir nueva categoría</h5>
+                            <button type="button" class="btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/categorias/guardar}" th:object="${categoria}"
+                              method="POST" class="was-validated" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control text-dark" id="descripcion" name="descripcion" required="true"/>
+                                    <label for="descripcion" class="text-dark">Descripción:</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                    <label for="imagenFile" class="text-dark">Imagen:</label>
+                                    <img class="align-items-center mt-3" id="storedImage" src="#" alt="Imagen" style="max-width: 375px;"/>
+                                </div>
+                                <div class="form-floating">
+                                    <select class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                        <option selected value="1">Inactivo</option>
+                                        <option value="2">Activo</option>
+                                    </select>
+                                    <label for="estado" class="text-dark">Seleccione el estado:</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Listado: Muestra el listado de categorias -->
+        <section th:fragment="listadoCategorias" id="categorias" class="intro vh-100">
+            <div class="bg-image h-100 bg-dark">
+                <div class="d-flex align-items-center h-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="text-white text-center mb-4">Categorías
+                                <span th:if="${categorias != null and !categorias.empty}" class="badge text-bg-secondary">
+                                    [[${totalCategorias}]]
+                                    <svg fill="#ffffff" width="40px" height="40px" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category</title> <path d="M2.594 4.781l-1.719 1.75h15.5l-1.719-1.75h-12.063zM17.219 13.406h-17.219v-6.031h17.219v6.031zM12.063 11.688v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875zM17.219 20.313h-17.219v-6.031h17.219v6.031zM12.063 18.594v-1.75h-6.875v1.75h0.844v-0.875h5.156v0.875h0.875zM17.219 27.188h-17.219v-6h17.219v6zM12.063 25.469v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875z"></path> </g></svg>
+                                </span>
+                                <span th:if="${categorias == null or categorias.empty}" class="badge text-bg-secondary">
+                                    0
+                                    <svg fill="#ffffff" width="40px" height="40px" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category</title> <path d="M2.594 4.781l-1.719 1.75h15.5l-1.719-1.75h-12.063zM17.219 13.406h-17.219v-6.031h17.219v6.031zM12.063 11.688v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875zM17.219 20.313h-17.219v-6.031h17.219v6.031zM12.063 18.594v-1.75h-6.875v1.75h0.844v-0.875h5.156v0.875h0.875zM17.219 27.188h-17.219v-6h17.219v6zM12.063 25.469v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875z"></path> </g></svg>
+                                </span>
+                            </h1>
+                            <div class="col-12">
+                                <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
+                                    <div class="card-body">
+                                        <div th:if="${categorias != null and !categorias.empty}" class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            #
+                                                        </th>
+                                                        <th scope="col">Descripción</th>
+                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="categoria, contador : ${categorias}">
+                                                        <th scope="row">
+                                                            [[${contador.count}]]
+                                                        </th>
+                                                        <td>[[${categoria.descripcion}]]</td>
+                                                        <td th:text="${categoria.activo} ? 'Activo' : 'Inactivo'" />
+                                                        <td>
+                                                            <a th:href="@{/categorias/modificar/}+${categoria.idCategoria}"
+                                                               class="btn btn-dark btn-sm px-3">
+                                                                <svg fill="#ffffff" width="32px" height="32px" viewBox="0 0 24 24" id="update-alt-2" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="primary" d="M6,5H16a2,2,0,0,1,2,2v7" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><path id="primary-2" data-name="primary" d="M18,19H8a2,2,0,0,1-2-2V10" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><polyline id="primary-3" data-name="primary" points="15 11 18 14 21 11" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline><polyline id="primary-4" data-name="primary" points="9 13 6 10 3 13" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
+                                                            </a>
+                                                            <a th:href="@{/categorias/eliminar/}+${categoria.idCategoria}"
+                                                               class="btn btn-danger btn-sm px-3">
+                                                                <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="text-center p-2" th:if="${categorias == null or categorias.empty}">
+                                            <span class="text-dark">Lista vacía, no existen categorías.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Modal Modifica -->
+        <section th:fragment="editarCategoria" id="categorias" class="intro vh-100">
+            <div class="bg-image h-100 bg-dark">
+                <div class="d-flex align-items-center h-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="text-white text-center mb-4">Categorías
+                                <span th:if="${categorias == null or categorias.empty }" class="badge text-bg-secondary">
+                                    [[${totalCategorias}]]
+                                    <svg fill="#ffffff" width="40px" height="40px" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category</title> <path d="M2.594 4.781l-1.719 1.75h15.5l-1.719-1.75h-12.063zM17.219 13.406h-17.219v-6.031h17.219v6.031zM12.063 11.688v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875zM17.219 20.313h-17.219v-6.031h17.219v6.031zM12.063 18.594v-1.75h-6.875v1.75h0.844v-0.875h5.156v0.875h0.875zM17.219 27.188h-17.219v-6h17.219v6zM12.063 25.469v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875z"></path> </g></svg>
+                                </span>
+                                <span th:if="${categorias != null and !categorias.empty}" class="badge text-bg-secondary">
+                                    0
+                                    <svg fill="#ffffff" width="40px" height="40px" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category</title> <path d="M2.594 4.781l-1.719 1.75h15.5l-1.719-1.75h-12.063zM17.219 13.406h-17.219v-6.031h17.219v6.031zM12.063 11.688v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875zM17.219 20.313h-17.219v-6.031h17.219v6.031zM12.063 18.594v-1.75h-6.875v1.75h0.844v-0.875h5.156v0.875h0.875zM17.219 27.188h-17.219v-6h17.219v6zM12.063 25.469v-1.719h-6.875v1.719h0.844v-0.875h5.156v0.875h0.875z"></path> </g></svg>
+                                </span>
+                            </h1>
+                            <div class="col-8">
+
+                                <div class="card text-center">
+                                    <div class="card-header">
+                                        Acciones
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Actualizar</h5>
+
+                                        <form th:action="@{/categorias/guardar}" th:object="${categoria}"
+                                              method="POST" class="was-validated" enctype="multipart/form-data"
+                                              id="actualizarForm">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="idCategoria" th:field="*{idCategoria}"/>
+                                                <input type="hidden" name="imagen" th:field="*{imagen}"/>
+
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control text-dark" id="descripcion" name="descripcion" required="true" th:field="*{descripcion}"/>
+                                                    <label for="descripcion" class="text-dark">Descripción:</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                                    <label for="imagenFile" class="text-dark">Imagen:</label>
+                                                    <img class="align-items-center mt-3" id="storedImage" src="#" alt="Imagen" style="max-width: 375px;"/>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <select th:if="${!categoria.isActivo}" class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                                        <option selected value="1">Inactivo</option>
+                                                        <option value="2">Activo</option>
+                                                    </select>
+                                                    <select th:if="${categoria.isActivo}" class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                                        <option value="1">Inactivo</option>
+                                                        <option selected value="2">Activo</option>
+                                                    </select>
+                                                    <label for="estado" class="text-dark">Seleccione el estado:</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-body-secondary">
+                                      <section th:replace="~{categoria/fragmentos :: botonesEditar}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Botones de Accion vista Editar -->
+        <section th:fragment="botonesEditar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 d-grid">
+                        <a th:href="@{/categorias/}" class="btn btn-dark">
+                            Regresar
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">
+                        Eliminar
+                      </button>
+                      <section th:replace="~{categoria/fragmentos :: confirmarEliminar}"/>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                        <button class="btn btn-success" type="submit" form="actualizarForm">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Modal de Confirmar Eliminar -->
+        <section th:fragment="confirmarEliminar">
+          <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          ¿Está seguro que desea eliminar la categoría?
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a th:href="@{/categorias/eliminar/}+${categoria.idCategoria}" class="btn btn-danger">
+                              Eliminar
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+
+
+    </body>
+</html>

@@ -1,0 +1,24 @@
+.intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.dropup .hide-toggle.dropdown-toggle::after {
+  display: none !important;
+}
+
+[type="file"] {
+  &::file-selector-button {
+    display: none;
+  }
+}

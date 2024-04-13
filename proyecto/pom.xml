@@ -90,14 +90,14 @@
 		</dependency>
 
 		<!-- Dependencias de Semana 09: Spring Security -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Dependencias de Semana 10: Javax Validation -->
 		<dependency>

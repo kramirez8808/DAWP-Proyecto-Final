@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
     @NotEmpty
     private String password; //MySQL => password
     private String nombre; //MySQL => nombre
-    private String apellidos; //MySQL => apellidos
+    private String apellido; //MySQL => apellido
     private String correo; //MySQL => correo
     private String telefono; //MySQL => telefono
     private String rutaImagen; //MySQL => ruta_imagen

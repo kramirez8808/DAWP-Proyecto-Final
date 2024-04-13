@@ -10,32 +10,33 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "marca")
-public class Marca implements Serializable {
+@Table(name = "estilo")
+public class Estilo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremental
-    @Column(name = "id_marca")
-    private Long idMarca; //MySQL => id_marca PK
+    @Column(name = "id_estilo")
+    private Long idEstilo; //MySQL => id_estilo PK
     private String descripcion; //MySQL => descripcion
     private String imagen; //MySQL => imagen
     private boolean activo; //MySQL => activo
     
     //Relación con la tabla Producto
     @OneToMany
-    @JoinColumn(name = "id_marca", insertable = false, updatable = false) //No se puede insertar ni actualizar, es solo para consultas
+    @JoinColumn(name = "id_estilo", insertable = false, updatable = false) //No se puede insertar ni actualizar, es solo para consultas
     List<Producto> productos; 
 
     //Constructores
-    public Marca() {
+    public Estilo() {
     }
 
-    public Marca(Long idMarca, String descripcion, String imagen, Boolean activo) {
-        this.idMarca = idMarca;
+    public Estilo(Long idEstilo, String descripcion, String imagen, Boolean activo) {
+        this.idEstilo = idEstilo;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.activo = activo;
     }
 }
+

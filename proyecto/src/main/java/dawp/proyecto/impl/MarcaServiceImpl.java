@@ -18,7 +18,7 @@ public class MarcaServiceImpl implements MarcaService {
     @Autowired
     private MarcaDao marcaDao;
 
-    //Método GetMarca
+    //Método GetMarcas
     @Override
     @Transactional(readOnly = true)
     public List<Marca> getMarcas() {
@@ -48,18 +48,24 @@ public class MarcaServiceImpl implements MarcaService {
         .orElse(null);
     }
 
-    //Método SaveMarca
+    //Método Save
     @Override
     @Transactional
-    public void saveMarca(Marca marca) {
+    public void save(Marca marca) {
         marcaDao.save(marca);
     }
 
-    //Método DeleteMarca
+    //Método Delete
     @Override
     @Transactional
-    public void deleteMarca(Marca marca) {
+    public void delete(Marca marca) {
         marcaDao.delete(marca);
     }
     
+    //Método BuscarPorDescripcion
+    @Override
+    @Transactional(readOnly = true)
+    public List<Marca> buscarPorDescripcion(String descripcion) {
+        return marcaDao.findByDescripcion(descripcion);
+    }
 }

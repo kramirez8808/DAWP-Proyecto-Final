@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/template :: head}">
+        <title>Sneakers Society</title>
+    </head>
+    <body>
+        <!-- 1. Boton Agregar: Llama a un Modal -->
+        <div th:fragment="botonesAgregar" class="dropup position-fixed bottom-0 end-0 rounded-circle m-5" style="translate: -80% -80%;
+             text-align: center;">
+            <button type="button" class="btn btn-success btn-lg" style="transform: scale(130%);"
+                    data-bs-toggle="modal"
+                    data-bs-target="#agregarMarca"
+                    aria-expanded="false" 
+                    aria-haspopup="true">
+                <i class="fa-solid fa-plus" style="transform: scale(130%);"></i>
+                <span class="visually-hidden">Añadir</span>
+            </button>
+        </div>
+
+        <!-- 2. Modal Agregar: Modal para agregar la marca -->
+        <section th:fragment="agregarMarca">
+            <div id="agregarMarca" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="agregarMarcaModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white text-center">
+                            <h5 class="modal-title" id="agregarMarcaModalLabel">Añadir nueva marca</h5>
+                            <button type="button" class="btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/marcas/guardar}" th:object="${marca}"
+                              method="POST" class="was-validated" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control text-dark" id="descripcion" name="descripcion" required="true"/>
+                                    <label for="descripcion" class="text-dark">Descripción:</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                    <label for="imagenFile" class="text-dark">Imagen:</label>
+                                    <img class="align-items-center mt-3" id="storedImage" src="#" alt="Imagen" style="max-width: 375px;"/>
+                                </div>
+                                <div class="form-floating">
+                                    <select class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                        <option selected value="1">Inactivo</option>
+                                        <option value="2">Activo</option>
+                                    </select>
+                                    <label for="estado" class="text-dark">Seleccione el estado:</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Listado: Muestra el listado de marcas -->
+        <section th:fragment="listadoMarcas" id="marcas" class="intro vh-100">
+            <div class="bg-image h-100 bg-dark">
+                <div class="d-flex align-items-center h-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="text-white text-center mb-4">Marcas
+                                <span th:if="${marcas != null and !marcas.empty}" class="badge text-bg-secondary">
+                                    [[${totalMarcas}]]
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="40px" height="40px" viewBox="0 0 24 24" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M2.53 19.65l1.34.56v-9.03l-2.43 5.86c-.41 1.02.08 2.19 1.09 2.61zm19.5-3.7L17.07 3.98c-.31-.75-1.04-1.21-1.81-1.23-.26 0-.53.04-.79.15L7.1 5.95c-.75.31-1.21 1.03-1.23 1.8-.01.27.04.54.15.8l4.96 11.97c.31.76 1.05 1.22 1.83 1.23.26 0 .52-.05.77-.15l7.36-3.05c1.02-.42 1.51-1.59 1.09-2.6zM7.88 8.75c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 11c0 1.1.9 2 2 2h1.45l-3.45-8.34v6.34z"></path></g></svg>
+                                </span>
+                                <span th:if="${marcas == null or marcas.empty}" class="badge text-bg-secondary">
+                                    0
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="40px" height="40px" viewBox="0 0 24 24" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M2.53 19.65l1.34.56v-9.03l-2.43 5.86c-.41 1.02.08 2.19 1.09 2.61zm19.5-3.7L17.07 3.98c-.31-.75-1.04-1.21-1.81-1.23-.26 0-.53.04-.79.15L7.1 5.95c-.75.31-1.21 1.03-1.23 1.8-.01.27.04.54.15.8l4.96 11.97c.31.76 1.05 1.22 1.83 1.23.26 0 .52-.05.77-.15l7.36-3.05c1.02-.42 1.51-1.59 1.09-2.6zM7.88 8.75c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 11c0 1.1.9 2 2 2h1.45l-3.45-8.34v6.34z"></path></g></svg>
+                                </span>
+                            </h1>
+                            <div class="col-12">
+                                <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
+                                    <div class="card-body">
+                                        <div th:if="${marcas != null and !marcas.empty}" class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            #
+                                                        </th>
+                                                        <th scope="col">Descripción</th>
+                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="marca, contador : ${marcas}">
+                                                        <th scope="row">
+                                                            [[${contador.count}]]
+                                                        </th>
+                                                        <td>[[${marca.descripcion}]]</td>
+                                                        <td th:text="${marca.activo} ? 'Activo' : 'Inactivo'" />
+                                                        <td>
+                                                            <a th:href="@{/marcas/modificar/}+${marca.idMarca}"
+                                                               class="btn btn-dark btn-sm px-3">
+                                                                <svg fill="#ffffff" width="32px" height="32px" viewBox="0 0 24 24" id="update-alt-2" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path id="primary" d="M6,5H16a2,2,0,0,1,2,2v7" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><path id="primary-2" data-name="primary" d="M18,19H8a2,2,0,0,1-2-2V10" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><polyline id="primary-3" data-name="primary" points="15 11 18 14 21 11" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline><polyline id="primary-4" data-name="primary" points="9 13 6 10 3 13" style="fill: none; stroke: #FFFFFF; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
+                                                            </a>
+                                                            <a th:href="@{/marcas/eliminar/}+${marca.idMarca}"
+                                                               class="btn btn-danger btn-sm px-3">
+                                                                <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 11V17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 11V17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="text-center p-2" th:if="${marcas == null or marcas.empty}">
+                                            <span class="text-dark">Lista vacía, no existen marcas.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Modal Modifica -->
+        <section th:fragment="editarMarca" id="marcas" class="intro vh-100">
+            <div class="bg-image h-100 bg-dark">
+                <div class="d-flex align-items-center h-100">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="text-white text-center mb-4">Marcas
+                                <span th:if="${marcas == null or marcas.empty }" class="badge text-bg-secondary">
+                                    [[${totalMarcas}]]
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="40px" height="40px" viewBox="0 0 24 24" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M2.53 19.65l1.34.56v-9.03l-2.43 5.86c-.41 1.02.08 2.19 1.09 2.61zm19.5-3.7L17.07 3.98c-.31-.75-1.04-1.21-1.81-1.23-.26 0-.53.04-.79.15L7.1 5.95c-.75.31-1.21 1.03-1.23 1.8-.01.27.04.54.15.8l4.96 11.97c.31.76 1.05 1.22 1.83 1.23.26 0 .52-.05.77-.15l7.36-3.05c1.02-.42 1.51-1.59 1.09-2.6zM7.88 8.75c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 11c0 1.1.9 2 2 2h1.45l-3.45-8.34v6.34z"></path></g></svg>
+                                </span>
+                                <span th:if="${marcas != null and !marcas.empty}" class="badge text-bg-secondary">
+                                    0
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="40px" height="40px" viewBox="0 0 24 24" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M2.53 19.65l1.34.56v-9.03l-2.43 5.86c-.41 1.02.08 2.19 1.09 2.61zm19.5-3.7L17.07 3.98c-.31-.75-1.04-1.21-1.81-1.23-.26 0-.53.04-.79.15L7.1 5.95c-.75.31-1.21 1.03-1.23 1.8-.01.27.04.54.15.8l4.96 11.97c.31.76 1.05 1.22 1.83 1.23.26 0 .52-.05.77-.15l7.36-3.05c1.02-.42 1.51-1.59 1.09-2.6zM7.88 8.75c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-2 11c0 1.1.9 2 2 2h1.45l-3.45-8.34v6.34z"></path></g></svg>
+                                </span>
+                            </h1>
+                            <div class="col-8">
+
+                                <div class="card text-center">
+                                    <div class="card-header">
+                                        Acciones
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Actualizar</h5>
+
+                                        <form th:action="@{/marcas/guardar}" th:object="${marca}"
+                                              method="POST" class="was-validated" enctype="multipart/form-data"
+                                              id="actualizarForm">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="idMarca" th:field="*{idMarca}"/>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control text-dark" id="descripcion" name="descripcion" required="true" th:field="*{descripcion}"/>
+                                                    <label for="descripcion" class="text-dark">Descripción:</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                                    <label for="imagenFile" class="text-dark">Imagen:</label>
+                                                    <img class="align-items-center mt-3" id="storedImage" src="#" alt="Imagen" style="max-width: 375px;"/>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <select th:if="${!marca.isActivo}" class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                                        <option selected value="1">Inactivo</option>
+                                                        <option value="2">Activo</option>
+                                                    </select>
+                                                    <select th:if="${marca.isActivo}" class="form-select" name="estado" id="estado" aria-label="Floating label select">
+                                                        <option value="1">Inactivo</option>
+                                                        <option selected value="2">Activo</option>
+                                                    </select>
+                                                    <label for="estado" class="text-dark">Seleccione el estado:</label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-body-secondary">
+                                      <section th:replace="~{marca/fragmentos :: botonesEditar}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Botones de Accion vista Editar -->
+        <section th:fragment="botonesEditar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 d-grid">
+                        <a th:href="@{/marcas/}" class="btn btn-dark">
+                            Regresar
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmarEliminar">
+                        Eliminar
+                      </button>
+                      <section th:replace="~{marca/fragmentos :: confirmarEliminar}"/>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                        <button class="btn btn-success" type="submit" form="actualizarForm">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Modal de Confirmar Eliminar -->
+        <section th:fragment="confirmarEliminar">
+          <div class="modal fade" id="confirmarEliminar" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          ¿Está seguro que desea eliminar la marca?
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <a th:href="@{/marcas/eliminar/}+${marca.idMarca}" class="btn btn-danger">
+                              Eliminar
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </section>
+
+
+    </body>
+</html>

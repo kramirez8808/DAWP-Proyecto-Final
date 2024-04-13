@@ -17,52 +17,63 @@ import dawp.proyecto.service.CategoriaService;
 import dawp.proyecto.impl.FirebaseStorageServiceImpl;
 
 @Controller
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 public class CategoriaController {
- 
+
+    //Objeto CategoriaService: Servicio para gestionar las categorias
     @Autowired
     CategoriaService categoriaService;
     
-    @GetMapping("/listado")
+    //Listado: Devuelve una vista quue muestra una lista con todas las categorias
+    @GetMapping("/")
     public String listado(Model model) {
-        List<Categoria> lista = categoriaService.getCategorias(false);
-        //List<Categoria> lista = categoriaService.buscarPorDescripcion("Monitores");
+        List<Categoria> lista = categoriaService.getCategorias();
         model.addAttribute("categorias", lista);
         model.addAttribute("totalCategorias", lista.size());
         return "/categoria/listado";
     }
-    
-    @GetMapping("/nuevo")
-    public String categoriaNuevo(Categoria categoria) {
-        return "/categoria/modifica";
-    }
 
+    //Objeto FirebaseStorageService: Servicio para almacenar imagenes en Firebase
     @Autowired
     private FirebaseStorageServiceImpl firebaseStorageService;
     
+    //Guardar: Guarda una nueva categoria en la base de datos y redirige a la vista de listado
     @PostMapping("/guardar")
     public String categoriaGuardar(Categoria categoria,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
+            @RequestParam("imagenFile") MultipartFile imagenFile,
+            @RequestParam("estado") String estado) {
+                
+        if (estado.equals("1")) {
+            categoria.setActivo(false);
+        } else {
+            categoria.setActivo(true);
+        }
+
         if (!imagenFile.isEmpty()) {
             categoriaService.save(categoria);
-            categoria.setRutaImagen(
+            categoria.setImagen(
                     firebaseStorageService.cargaImagen(
                             imagenFile, 
                             "categoria", 
                             categoria.getIdCategoria()));
         }
         categoriaService.save(categoria);
-        return "redirect:/categoria/listado";
+        return "redirect:/categorias/";
     }
 
+    //Eliminar: Elimina una categoria de la base de datos y redirige a la vista de listado
     @GetMapping("/eliminar/{idCategoria}")
     public String categoriaEliminar(Categoria categoria) {
         categoriaService.delete(categoria);
-        return "redirect:/categoria/listado";
+        return "redirect:/categorias/";
     }
 
+    //Modificar: Devuelve la vista para modificar una categoria
     @GetMapping("/modificar/{idCategoria}")
     public String categoriaModificar(Categoria categoria, Model model) {
+        List<Categoria> lista = categoriaService.getCategorias();
+        model.addAttribute("totalCategorias", lista.size());
+
         categoria = categoriaService.getCategoria(categoria);
         model.addAttribute("categoria", categoria);
         return "/categoria/modifica";

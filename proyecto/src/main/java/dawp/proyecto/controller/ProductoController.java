@@ -20,6 +20,7 @@ import dawp.proyecto.impl.FirebaseStorageServiceImpl;
 @Controller
 @RequestMapping("/producto")
 public class ProductoController {
+    
     @Autowired
     ProductoService productoService;
 
@@ -31,7 +32,7 @@ public class ProductoController {
         List<Producto> lista = productoService.getProductosActivos(false);
         model.addAttribute("productos", lista);
         model.addAttribute("totalProductos", lista.size());
-        model.addAttribute("categorias", categoriaService.getCategorias(true));
+        model.addAttribute("categorias", categoriaService.getCategoriasActivas(true));
         return "/producto/listado";
     }
     
@@ -48,7 +49,7 @@ public class ProductoController {
             @RequestParam("imagenFile") MultipartFile imagenFile) {        
         if (!imagenFile.isEmpty()) {
             productoService.save(producto);
-            producto.setRutaImagen(
+            producto.setImagen(
                     firebaseStorageService.cargaImagen(
                             imagenFile, 
                             "producto", 
@@ -68,7 +69,7 @@ public class ProductoController {
     public String productoModificar(Producto producto, Model model) {
         producto = productoService.getProducto(producto);
         model.addAttribute("producto", producto);
-        model.addAttribute("categorias", categoriaService.getCategorias(true));
+        model.addAttribute("categorias", categoriaService.getCategoriasActivas(true));
         return "/producto/modifica";
     }
 }

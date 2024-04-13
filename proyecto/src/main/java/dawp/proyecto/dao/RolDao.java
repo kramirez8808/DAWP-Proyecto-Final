@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package dawp.proyecto.dao;
 
-/**
- *
- * @author fanta
- */
-public interface RolDao {
+// ------ EXTERNAL IMPORTS ------
+import org.springframework.data.jpa.repository.JpaRepository;
+
+// ------ INTERNAL IMPORTS ------
+import dawp.proyecto.domain.Rol;
+
+public interface RolDao extends JpaRepository<Rol, Long> {
     
 }
