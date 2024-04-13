@@ -13,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 // ------ INTERNAL IMPORTS ------
 import dawp.proyecto.domain.Categoria;
+import dawp.proyecto.domain.Producto;
 import dawp.proyecto.service.CategoriaService;
+import dawp.proyecto.service.ProductoService;
 import dawp.proyecto.impl.FirebaseStorageServiceImpl;
 
 @Controller
@@ -77,6 +79,41 @@ public class CategoriaController {
         categoria = categoriaService.getCategoria(categoria);
         model.addAttribute("categoria", categoria);
         return "/categoria/modifica";
+    }
+
+    //Objeto ProductoServce: Servicio para gestionar los productos
+    @Autowired
+    ProductoService productoService;
+
+    //Tienda: Muestra una vista de Productos para buscar por Categoria
+    @GetMapping("/tienda/")
+    public String tienda(Model model) {
+
+        List<Producto> productos = productoService.getProductosActivos(true);
+        List<Categoria> categorias = categoriaService.getCategoriasActivas(true);
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("categorias", categorias);
+
+        return "/categoria/tienda";
+
+    }
+
+    //Busqueda: Muestra el resultado de la busqueda de productos por Categoria
+    @PostMapping("/busqueda/")
+    public String queryByCategoria(@RequestParam("idCategoria") String idCategoria , Model model) {
+        Long idCategoriaLong = Long.parseLong(idCategoria);
+
+        List<Producto> productos = productoService.queryByCategoria(idCategoriaLong);
+        List<Categoria> categorias = categoriaService.getCategoriasActivas(true);
+
+        model.addAttribute("idCategoria", idCategoria);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("categorias", categorias);
+
+        return "/categoria/tienda";
     }
 
 }

@@ -1,59 +1,59 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html class="h-100"
+      data-bs-theme="dark"
+      lang="es" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{layout/plantilla :: head}">
-        <title>Sneakers Society</title>
-        <meta charset="UTF-8"/>
 
-    </head>
-    <body>
-        <header th:replace="~{layout/plantilla :: header}"/>
-        <div class="container my-5">
-            <div class="row align-items-center">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card text-center  bg-dark mb-3" style="color: white;"><h2>[[#{login.login}]]</h2></div>
-                        <div class="card-body">
-                            <form method="POST" th:action="@{/login}">
-                                <div class="form-group row my-3">
-                                    <label class="col-md-5 my-auto" for="username"</i>[[#{usuario.username}]]:</label>
-                                    <div class="col-md-7 my-auto">
-                                        <input class="form-control" type="text" name="username" id="username"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row my-3">
-                                    <label class="col-md-5 my-auto" for="password"</i>[[#{login.password}]]</label>
-                                    <div class="col-md-7 my-auto">
-                                        <input class="form-control" type="password" name="password" id="password"/>
-                                    </div>
-                                </div>
-                                <div class="card-footer col text-center">
-                                    <div class="custom-button-group">
-                                        <button class="btn btn-registrar btn-dark ">
-                                            <a th:href="@{/registro/nuevo}" class="btn"style="color: white;"><i class="fa-solid fa-user-large"></i> [[#{accion.registrar}]]</a>
-                                        </button>
-                                        <button class="btn btn-recordar btn-dark">
-                                            <a th:href="@{/registro/recordar}" class="btn" style="color: white;"><i class="fa-solid fa-message"></i> [[#{accion.recordar}]]</a>
-                                        </button>
-                                        <button class="btn btn-login btn-dark" type="submit">
-                                          <span class="btn" style="color: white"><i class="fas fa-sign-in-alt"></i> [[#{login.aceptar}]]</span></button>
-                                      
-                                    </div>
-                                </div>
-                                
+  <head th:replace="layout/template :: head"></head>
 
-                            </form>
-                        </div>
-                    </div>
-                    <div th:if="${param.error != null}">
-                      
-                        <div class="card text-white bg-danger mb-3" style="max-width: 18rem;"><h3>[[#{error.login}]]</h3>
-                    </div>
-                        </div>
+  <body class="d-flex h-100 text-center text-white bg-dark overflow-hidden">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <header th:replace="layout/template :: header"></header>
+
+        <!-- Formulario de Login -->
+        <div class="container text-dark">
+            <div class="row">
+              <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card border-0 shadow rounded-3 my-5">
+                  <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+                    <form method="POST" th:action="@{/login}">
+                      <div class="form-floating mb-3">
+                        <input type="username" name="username" class="form-control" id="username" placeholder="user1">
+                        <label for="floatingInput">Username</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                      </div>
+                      <div class="d-grid">
+                        <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
+                          in</button>
+                      </div>
+                      <hr class="my-4">
+                      <div class="d-grid mb-2">
+                        <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                          <i class="fab fa-google me-2"></i> Sign in with Google
+                        </button>
+                      </div>
+                      <div class="d-grid">
+                        <button class="btn btn-facebook btn-login text-uppercase fw-bold" type="submit">
+                          <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div th:if="${param.error != null}">
+            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                <h3>[[#{error.login}]]</h3>
             </div>
         </div>
-        <footer th:replace="~{layout/plantilla :: footer}"/>
-    </body>
+
+        <footer th:replace="layout/template :: footer"></footer>
+    </div>
+  </body>
 </html>

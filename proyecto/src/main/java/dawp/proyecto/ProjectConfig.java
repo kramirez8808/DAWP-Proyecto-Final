@@ -7,16 +7,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.core.userdetails.User;
-// import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.core.userdetails.UserDetailsService;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-// import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -61,35 +62,47 @@ public class ProjectConfig implements WebMvcConfigurer {
     }
     
     /* SEGURIDAD */
-    // @Override
-    // public void addViewControllers(ViewControllerRegistry registry) {
-    //     registry.addViewController("/").setViewName("index");
-    //     registry.addViewController("/index").setViewName("index");
-    //     registry.addViewController("/login").setViewName("login");
-    //     registry.addViewController("/registro/nuevo").setViewName("/registro/nuevo");
-    //     registry.addViewController("/categorias").setViewName("/categorias");
-    // }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+    }
 
     /* Users para TESTING */    
-//     @Bean
-//     public UserDetailsService users() {
-//         UserDetails admin = User.builder()
-//                 .username("admin")
-//                 .password("{noop}123")
-//                 .roles("USER", "VENDEDOR", "ADMIN")
-//                 .build();
-//         UserDetails sales = User.builder()
-//                 .username("seller")
-//                 .password("{noop}456")
-//                 .roles("USER", "VENDEDOR")
-//                 .build();
-//         UserDetails user = User.builder()
-//                 .username("user")
-//                 .password("{noop}789")
-//                 .roles("USER")
-//                 .build();
-//         return new InMemoryUserDetailsManager(user, sales, admin);
-//     }
+    @Bean
+    public UserDetailsService users() {
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password("{noop}123")
+                .roles("USER", "VENDEDOR", "ADMIN")
+                .build();
+        UserDetails sales = User.builder()
+                .username("seller")
+                .password("{noop}456")
+                .roles("USER", "VENDEDOR")
+                .build();
+        UserDetails user = User.builder()
+                .username("user")
+                .password("{noop}789")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user, sales, admin);
+    }
+
+    /*  Bean para Testing */
+    @Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+			.authorizeHttpRequests((authorize) -> authorize
+				.requestMatchers("/login").permitAll()
+				.anyRequest().authenticated()
+			)
+            .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
+            );
+
+		return http.build();
+	}
     
 //     @Autowired
 //     private UserDetailsService userDetailsService;

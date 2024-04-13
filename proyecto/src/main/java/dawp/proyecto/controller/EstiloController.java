@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 // ------ INTERNAL IMPORTS ------
 import dawp.proyecto.domain.Estilo;
+import dawp.proyecto.domain.Producto;
 import dawp.proyecto.service.EstiloService;
+import dawp.proyecto.service.ProductoService;
 
 @Controller
 @RequestMapping("/estilos")
@@ -64,5 +66,39 @@ public class EstiloController {
         return "/estilo/modifica";
     }
 
+    //Objeto ProductoServce: Servicio para gestionar los productos
+    @Autowired
+    ProductoService productoService;
+
+    //Tienda: Muestra una vista de Productos para buscar por Estilo
+    @GetMapping("/tienda/")
+    public String tienda(Model model) {
+
+        List<Producto> productos = productoService.getProductosActivos(true);
+        List<Estilo> estilos = estiloService.getEstilosActivos(true);
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("estilos", estilos);
+
+        return "/estilo/tienda";
+
+    }
+
+    //Busqueda: Muestra el resultado de la busqueda de productos por Estilo
+    @PostMapping("/busqueda/")
+    public String queryByEstilo(@RequestParam("idEstilo") String idEstilo , Model model) {
+        Long idEstiloLong = Long.parseLong(idEstilo);
+
+        List<Producto> productos = productoService.queryByEstilo(idEstiloLong);
+        List<Estilo> estilos = estiloService.getEstilosActivos(true);
+
+        model.addAttribute("idEstilo", idEstilo);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("estilos", estilos);
+
+        return "/estilo/tienda";
+    }
 
 }
