@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html class="h-100"
+      data-bs-theme="dark"
+      lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="layout/template :: head"></head>
+
+  <body class="d-flex text-center text-white bg-dark">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <header th:replace="layout/template :: header"></header>
+
+        <section th:replace="marca/fragmentos :: listadoTienda"></section>
+        <section th:replace="marca/fragmentos :: busquedaMarca"/>
+
+        <footer th:replace="layout/template :: footer"></footer>
+    </div>
+  </body>
+</html>

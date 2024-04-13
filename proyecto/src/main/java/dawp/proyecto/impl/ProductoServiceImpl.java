@@ -65,22 +65,22 @@ public class ProductoServiceImpl implements ProductoService {
     //Método FindByMarcaId
     @Override
     @Transactional(readOnly=true)
-    public List<Producto> queryMarca(Long marcaId) {
-        return productoDao.queryMarca(marcaId);
+    public List<Producto> queryByMarca(Long marcaId) {
+        return productoDao.queryByMarca(marcaId);
     }
 
     //Método FindByCategoriaId
     @Override
     @Transactional(readOnly=true)
-    public List<Producto> findByCategoriaId(Long categoriaId) {
-        return productoDao.findByCategoriaId(categoriaId);
+    public List<Producto> queryByCategoria(Long categoriaId) {
+        return productoDao.queryByCategoria(categoriaId);
     }
 
     //Método FindByEstiloId
     @Override
     @Transactional(readOnly=true)
-    public List<Producto> findByEstiloId(Long estiloId) {
-        return productoDao.findByEstiloId(estiloId);
+    public List<Producto> queryByEstilo(Long estiloId) {
+        return productoDao.queryByEstilo(estiloId);
     }
 
 }

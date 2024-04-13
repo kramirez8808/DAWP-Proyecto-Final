@@ -24,12 +24,12 @@ public interface ProductoService {
     public void delete(Producto producto);
 
     //FindByMarcaId: Devuelve una lista con todos los productos de una marca
-    public List<Producto> queryMarca(Long marcaId);
+    public List<Producto> queryByMarca(Long marcaId);
 
     //FindByCategoriaId: Devuelve una lista con todos los productos de una categoria
-    public List<Producto> findByCategoriaId(Long categoriaId);
+    public List<Producto> queryByCategoria(Long categoriaId);
 
     //FindByEstiloId: Devuelve una lista con todos los productos de un estilo
-    public List<Producto> findByEstiloId(Long estiloId);
+    public List<Producto> queryByEstilo(Long estiloId);
     
 }

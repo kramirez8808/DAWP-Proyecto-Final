@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.api.client.util.Lists;
+
 // ------ INTERNAL IMPORTS ------
 import dawp.proyecto.domain.Marca;
+import dawp.proyecto.domain.Producto;
 import dawp.proyecto.service.MarcaService;
+import dawp.proyecto.service.ProductoService;
 import dawp.proyecto.impl.FirebaseStorageServiceImpl;
 
 @Controller
@@ -79,5 +83,39 @@ public class MarcaController {
         return "/marca/modifica";
     }
 
+    //Objeto ProductoServce: Servicio para gestionar los productos
+    @Autowired
+    ProductoService productoService;
+
+    //Tienda: Muestra una vista de Productos para buscar por Marca
+    @GetMapping("/tienda/")
+    public String tienda(Model model) {
+
+        List<Producto> productos = productoService.getProductosActivos(true);
+        List<Marca> marcas = marcaService.getMarcasActivas(true);
+
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("marcas", marcas);
+
+        return "/marca/tienda";
+
+    }
+
+    //Busqueda: Muestra el resultado de la busqueda de productos por Marca
+    @PostMapping("/busqueda/")
+    public String queryByMarca(@RequestParam("idMarca") String idMarca , Model model) {
+        Long idMarcaLong = Long.parseLong(idMarca);
+
+        List<Producto> productos = productoService.queryByMarca(idMarcaLong);
+        List<Marca> marcas = marcaService.getMarcasActivas(true);
+
+        model.addAttribute("idMarca", idMarca);
+        model.addAttribute("productos", productos);
+        model.addAttribute("totalProductos", productos.size());
+        model.addAttribute("marcas", marcas);
+
+        return "/marca/tienda";
+    }
 
 }
