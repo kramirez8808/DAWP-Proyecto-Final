@@ -11,15 +11,15 @@ import dawp.proyecto.domain.Producto;
 
 public interface ProductoDao extends JpaRepository<Producto, Long> {
     
-    //Ejemplo de método utilizando Métodos de Query
-    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup);
-
-    //Ejemplo de método utilizando Consultas con JPQL
-    @Query(value="SELECT a FROM Producto a where a.precio BETWEEN :precioInf AND :precioSup ORDER BY a.descripcion ASC")
-    public List<Producto> metodoJPQL(@Param("precioInf") double precioInf, @Param("precioSup") double precioSup);
-    
+    //Metodo para consultar productos por su Marca
     //Ejemplo de método utilizando Consultas con SQL nativo
     @Query(nativeQuery=true,
-            value="SELECT * FROM producto where producto.precio BETWEEN :precioInf AND :precioSup ORDER BY producto.descripcion ASC")
-    public List<Producto> metodoNativo(@Param("precioInf") double precioInf, @Param("precioSup") double precioSup);
+            value="SELECT * FROM producto WHERE producto.id_marca = :idMarca")
+    public List<Producto> queryMarca(@Param("idMarca") Long idMarca); 
+
+    //Metodo para consultar productos por su Categoria
+    public List<Producto> findByCategoriaId(Long categoriaId);
+
+    //Metodo para consultar productos por su Estilo
+    public List<Producto> findByEstiloId(Long estiloId);
 }

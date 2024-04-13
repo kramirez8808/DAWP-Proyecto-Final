@@ -24,7 +24,13 @@
                                 <img th:src="${producto.imagen}" class="card-img-top" alt="..." />
                                 <div class="card-body">
                                     <h5 th:text="${producto.descripcion}" class="card-title text-dark"></h5>
-                                    <a th:href="@{/producto/}+${producto.idProducto}" class="btn btn-primary">Ver Detalles</a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                          <a th:href="@{/productos/detalle/}+${producto.idProducto}" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
+                                          <a th:href="@{/producto/}+${producto.idProducto}" class="btn btn-sm btn-outline-success">Añadir al Carrito</a>
+                                        </div>
+                                        <small class="text-secondary">Precio: [[${producto.precio}]]</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>

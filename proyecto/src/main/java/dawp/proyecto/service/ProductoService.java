@@ -23,12 +23,13 @@ public interface ProductoService {
     //Delete: Elimina un producto existente
     public void delete(Producto producto);
 
-    // Lista de productos con precio entre ordendados por descripción ConsultaAmpliada
-    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup);
-    
-    //Lista de productos utilizando consultas con JPQL    
-    public List<Producto> metodoJPQL(double precioInf, double precioSup);
+    //FindByMarcaId: Devuelve una lista con todos los productos de una marca
+    public List<Producto> queryMarca(Long marcaId);
 
-    //Lista de productos utilizando consultas con SQL Nativo
-    public List<Producto> metodoNativo(double precioInf, double precioSup);
+    //FindByCategoriaId: Devuelve una lista con todos los productos de una categoria
+    public List<Producto> findByCategoriaId(Long categoriaId);
+
+    //FindByEstiloId: Devuelve una lista con todos los productos de un estilo
+    public List<Producto> findByEstiloId(Long estiloId);
+    
 }

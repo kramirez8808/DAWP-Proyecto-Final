@@ -61,26 +61,26 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
-
-    // Lista de productos con precio entre ordendados por descripción ConsultaAmpliada
+    
+    //Método FindByMarcaId
     @Override
     @Transactional(readOnly=true)
-    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup) {
-        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+    public List<Producto> queryMarca(Long marcaId) {
+        return productoDao.queryMarca(marcaId);
     }
 
-    //Ejemplo de método utilizando Consultas con JPQL
+    //Método FindByCategoriaId
     @Override
-    @Transactional(readOnly=true)    
-    public List<Producto> metodoJPQL(double precioInf, double precioSup) {
-        return productoDao.metodoJPQL(precioInf, precioSup);
+    @Transactional(readOnly=true)
+    public List<Producto> findByCategoriaId(Long categoriaId) {
+        return productoDao.findByCategoriaId(categoriaId);
     }
 
-    //Ejemplo de método utilizando Consultas con SQL nativo
+    //Método FindByEstiloId
     @Override
-    @Transactional(readOnly=true)    
-    public List<Producto> metodoNativo(double precioInf, double precioSup) {
-        return productoDao.metodoNativo(precioInf, precioSup);
+    @Transactional(readOnly=true)
+    public List<Producto> findByEstiloId(Long estiloId) {
+        return productoDao.findByEstiloId(estiloId);
     }
-    
+
 }

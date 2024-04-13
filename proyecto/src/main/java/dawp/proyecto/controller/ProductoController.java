@@ -99,4 +99,21 @@ public class ProductoController {
         
         return "/producto/modifica";
     }
+
+    @GetMapping("/tienda/")
+    public String listadoTienda(Model model) {
+
+        List<Producto> lista = productoService.getProductosActivos(true);
+        model.addAttribute("productos", lista);
+        model.addAttribute("totalProductos", lista.size());
+
+        return "/producto/tienda";
+    }
+
+    @GetMapping("/detalle/{idProducto}")
+    public String productoDetalle(Producto producto, Model model) {
+        producto = productoService.getProducto(producto);
+        model.addAttribute("producto", producto);
+        return "/producto/detalle";
+    }
 }
