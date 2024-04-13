@@ -3,14 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"      
     xmlns:th="http://www.thymeleaf.org">
     
-    <head th:replace="layout/plantilla :: head">
+    <head th:replace="layout/template :: head">
         
        
     </head>
-    <body>
-        <header th:replace="layout/plantilla :: header"></header>
-        <section th:replace="producto/fragmentos :: editarProducto"/>
-        <footer th:replace="layout/plantilla :: footer"></footer>
+    <body class="d-flex h-100 text-center text-white bg-dark" style="overflow-y: auto;">
+        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+            <header th:replace="layout/template :: header"></header>
+            <section th:replace="producto/fragmentos :: editarProducto"/>
+            <footer th:replace="layout/template :: footer"></footer>
+        </div>
+
+        
        
     </body>
 </html>

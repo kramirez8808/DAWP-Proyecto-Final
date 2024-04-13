@@ -16,29 +16,41 @@ import dawp.proyecto.domain.Producto;
 import dawp.proyecto.service.ProductoService;
 import dawp.proyecto.service.CategoriaService;
 import dawp.proyecto.impl.FirebaseStorageServiceImpl;
+import dawp.proyecto.service.MarcaService;
+import dawp.proyecto.service.EstiloService;
 
 @Controller
-@RequestMapping("/producto")
+@RequestMapping("/productos")
 public class ProductoController {
     
+    //Objeto ProductoService: Servicio para gestionar los productos
     @Autowired
     ProductoService productoService;
 
+    //Objeto CategoriaService: Servicio para gestionar las categorias
     @Autowired
     CategoriaService categoriaService;
+
+    //Objeto MarcaService: Servicio para gestionar las marcas
+    @Autowired
+    MarcaService marcaService;
+
+    //Objeto EstiloService: Servicio para gestionar los estilos
+    @Autowired
+    EstiloService estiloService;
     
-    @GetMapping("/listado")
+    //Listado: Devuelve una vista que muestra una lista con todos los productos
+    @GetMapping("/")
     public String listado(Model model) {
-        List<Producto> lista = productoService.getProductosActivos(false);
+        List<Producto> lista = productoService.getProductos();
         model.addAttribute("productos", lista);
         model.addAttribute("totalProductos", lista.size());
+
         model.addAttribute("categorias", categoriaService.getCategoriasActivas(true));
+        model.addAttribute("marcas", marcaService.getMarcasActivas(true));
+        model.addAttribute("estilos", estiloService.getEstilosActivos(true));
+
         return "/producto/listado";
-    }
-    
-    @GetMapping("/nuevo")
-    public String productoNuevo(Producto producto) {
-        return "/producto/modifica";
     }
 
     @Autowired
@@ -46,7 +58,15 @@ public class ProductoController {
     
     @PostMapping("/guardar")
     public String productoGuardar(Producto producto,
-            @RequestParam("imagenFile") MultipartFile imagenFile) {        
+            @RequestParam("imagenFile") MultipartFile imagenFile,
+            @RequestParam("estado") String estado){     
+        
+        if (estado.equals("1")) {
+            producto.setActivo(false);
+        } else {
+            producto.setActivo(true);
+        }
+                
         if (!imagenFile.isEmpty()) {
             productoService.save(producto);
             producto.setImagen(
@@ -56,20 +76,27 @@ public class ProductoController {
                             producto.getIdProducto()));
         }
         productoService.save(producto);
-        return "redirect:/producto/listado";
+        return "redirect:/productos/";
     }
 
     @GetMapping("/eliminar/{idProducto}")
     public String productoEliminar(Producto producto) {
         productoService.delete(producto);
-        return "redirect:/producto/listado";
+        return "redirect:/productos/";
     }
 
     @GetMapping("/modificar/{idProducto}")
     public String productoModificar(Producto producto, Model model) {
         producto = productoService.getProducto(producto);
         model.addAttribute("producto", producto);
+
+        List<Producto> lista = productoService.getProductos();
+        model.addAttribute("totalProductos", lista.size());
+
         model.addAttribute("categorias", categoriaService.getCategoriasActivas(true));
+        model.addAttribute("marcas", marcaService.getMarcasActivas(true));
+        model.addAttribute("estilos", estiloService.getEstilosActivos(true));
+        
         return "/producto/modifica";
     }
 }

@@ -26,20 +26,20 @@ public class Producto implements Serializable {
     private String imagen; //MySQL => ruta_imagen
     private boolean activo; //MySQL => activo
     
-    //Relación con la tabla Categoria
-    // @ManyToOne
-    // @JoinColumn(name = "id_categoria")
-    // Categoria categoria; //MySQL => id_categoria FK
+    // Relación con la tabla Categoria
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    Categoria categoria; //MySQL => id_categoria FK
 
-    //Relación con la tabla Marca
-    // @ManyToOne
-    // @JoinColumn(name = "id_marca")
-    // Marca marca; //MySQL => id_marca FK
+    // Relación con la tabla Marca
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    Marca marca; //MySQL => id_marca FK
     
-    //Relación con la tabla Estilo
-    // @ManyToOne
-    // @JoinColumn(name = "id_estilo")
-    // Estilo estilo; //MySQL => id_categoria FK
+    // Relación con la tabla Estilo
+    @ManyToOne
+    @JoinColumn(name = "id_estilo")
+    Estilo estilo; //MySQL => id_categoria FK
 
     //Constructores
     public Producto() {

@@ -20,7 +20,6 @@ public class Estilo implements Serializable {
     @Column(name = "id_estilo")
     private Long idEstilo; //MySQL => id_estilo PK
     private String descripcion; //MySQL => descripcion
-    private String imagen; //MySQL => imagen
     private boolean activo; //MySQL => activo
     
     //Relación con la tabla Producto
@@ -32,10 +31,9 @@ public class Estilo implements Serializable {
     public Estilo() {
     }
 
-    public Estilo(Long idEstilo, String descripcion, String imagen, Boolean activo) {
+    public Estilo(Long idEstilo, String descripcion, Boolean activo) {
         this.idEstilo = idEstilo;
         this.descripcion = descripcion;
-        this.imagen = imagen;
         this.activo = activo;
     }
 }
