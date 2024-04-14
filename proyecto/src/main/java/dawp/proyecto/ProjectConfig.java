@@ -98,7 +98,10 @@ public class ProjectConfig implements WebMvcConfigurer {
             )
             
 			.authorizeHttpRequests((authorize) -> authorize
-				.anyRequest().permitAll()
+				.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
+                                "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
+                                "/estilos/tienda/", "/estilos/busqueda/").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
 			)
             .formLogin(form -> form
                 .loginPage("/login")
