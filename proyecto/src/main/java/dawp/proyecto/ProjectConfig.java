@@ -2,19 +2,19 @@ package dawp.proyecto;
 
 // ------ EXTERNAL IMPORTS ------
 import java.util.Locale;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -65,6 +65,7 @@ public class ProjectConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/logout").setViewName("logout");
     }
 
     /* Users para TESTING */    
@@ -88,22 +89,32 @@ public class ProjectConfig implements WebMvcConfigurer {
         return new InMemoryUserDetailsManager(user, sales, admin);
     }
 
-    /*  Bean para Testing */
+    /*  Bean for testing  */
     @Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+            .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+            )
+            
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/login").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 			)
             .formLogin(form -> form
                 .loginPage("/login")
                 .permitAll()
-            );
+            )
+            .logout(logout -> logout
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            )
+            ;
+            
 
 		return http.build();
 	}
-    
+
 //     @Autowired
 //     private UserDetailsService userDetailsService;
 
