@@ -33,9 +33,9 @@ public class Usuario implements Serializable {
     private String password; //MySQL => password
     private String nombre; //MySQL => nombre
     private String apellido; //MySQL => apellido
-    private String correo; //MySQL => correo
+    private String email; //MySQL => email
     private String telefono; //MySQL => telefono
-    private String rutaImagen; //MySQL => ruta_imagen
+    private String imagen; //MySQL => imagen
     private boolean activo; //MySQL => activo
 
     @OneToMany

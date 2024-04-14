@@ -15,8 +15,12 @@ import dawp.proyecto.service.UsuarioService;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+
+    // Interface para el acceso a la tabla de usuarios
     @Autowired
     private UsuarioDao usuarioDao;
+
+    // Interface para el acceso a la tabla de roles
     @Autowired
     private RolDao rolDao;
 
@@ -52,14 +56,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional(readOnly = true)
     public Usuario getUsuarioPorUsernameOCorreo(String username, String correo) {
-        return usuarioDao.findByUsernameOrCorreo(username, correo);
+        return usuarioDao.findByUsernameOrEmail(username, correo);
     }
 
     //Método para saber si existe un usuario por su username o correo
     @Override
     @Transactional(readOnly = true)
     public boolean existeUsuarioPorUsernameOCorreo(String username, String correo) {
-        return usuarioDao.existsByUsernameOrCorreo(username, correo);
+        return usuarioDao.existsByUsernameOrEmail(username, correo);
     }
 
     //Método para guardar un usuario

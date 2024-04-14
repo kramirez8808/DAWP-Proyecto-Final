@@ -56,7 +56,7 @@
                                 <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
                                     <a th:href="@{/productos/}" class="dropdown-item">
                                         Administración</a>
-                                    </li>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -67,10 +67,10 @@
                                 <li>
                                     <a th:href="@{/marcas/tienda/}" class="dropdown-item">Búsqueda</a>
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/marcas/}" class="dropdown-item">
                                         Administración
                                     </a>
@@ -85,10 +85,10 @@
                                 <li>
                                     <a th:href="@{/categorias/tienda/}" class="dropdown-item">Búsqueda</a>
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/categorias/}" class="dropdown-item">
                                         Administración</a>
                                     </li>
@@ -102,17 +102,17 @@
                                 <li>
                                     <a th:href="@{/estilos/tienda/}" class="dropdown-item">Búsqueda</a>
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_VENDEDOR')">
+                                <li sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{/estilos/}" class="dropdown-item">
                                         Administración</a>
                                     </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a th:href="@{/contacto}" class="nav-link active" aria-current="page">Contacto</a>
+                        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a th:href="@{/usuarios/}" class="nav-link active" aria-current="page">Usuarios</a>
                         </li>
                     </ul>
                     <!-- Boton de Login -->
@@ -125,9 +125,9 @@
                         </li>                 
                     </ul>
                     <ul class="navbar-nav" sec:authorize="isAuthenticated()">
-                        <li class="nav-item text-white my-auto">
+                        <li class="nav-item text-white my-auto d-flex align-items-center ms-3" >
                             <img th:src="@{${session.usuarioImagen}}" alt="your image" height="40" class="rounded-circle"/>
-                            <span sec:authentication='name'></span>
+                            <span sec:authentication='name' class="ms-2"></span>
                         </li>
                         <li class="nav-item my-auto">
                             <form method="post" th:action="@{/logout}">

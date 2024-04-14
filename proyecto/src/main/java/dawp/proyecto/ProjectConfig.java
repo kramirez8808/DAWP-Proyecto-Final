@@ -2,15 +2,19 @@ package dawp.proyecto;
 
 // ------ EXTERNAL IMPORTS ------
 import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -69,91 +73,89 @@ public class ProjectConfig implements WebMvcConfigurer {
     }
 
     /* Users para TESTING */    
-    @Bean
-    public UserDetailsService users() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}123")
-                .roles("USER", "VENDEDOR", "ADMIN")
-                .build();
-        UserDetails sales = User.builder()
-                .username("seller")
-                .password("{noop}456")
-                .roles("USER", "VENDEDOR")
-                .build();
-        UserDetails user = User.builder()
-                .username("user")
-                .password("{noop}789")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user, sales, admin);
+    // @Bean
+    // public UserDetailsService users() {
+    //     UserDetails admin = User.builder()
+    //             .username("admin")
+    //             .password("{noop}123")
+    //             .roles("USER", "VENDEDOR", "ADMIN")
+    //             .build();
+    //     UserDetails sales = User.builder()
+    //             .username("seller")
+    //             .password("{noop}456")
+    //             .roles("USER", "VENDEDOR")
+    //             .build();
+    //     UserDetails user = User.builder()
+    //             .username("user")
+    //             .password("{noop}789")
+    //             .roles("USER")
+    //             .build();
+    //     return new InMemoryUserDetailsManager(user, sales, admin);
+    // }
+
+    // /*  Bean for testing  */
+    // @Bean
+	// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	// 	http
+    //         .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+    //             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+    //         )
+            
+	// 		.authorizeHttpRequests((authorize) -> authorize
+	// 			.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
+    //                             "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
+    //                             "/estilos/tienda/", "/estilos/busqueda/").permitAll()
+    //             .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+	// 		)
+    //         .formLogin(form -> form
+    //             .loginPage("/login")
+    //             .permitAll()
+    //         )
+    //         .logout(logout -> logout
+    //             .invalidateHttpSession(true)
+    //             .deleteCookies("JSESSIONID")
+    //             .permitAll()
+    //         );
+            
+
+	// 	return http.build();
+	// }
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
+        build.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    /*  Bean for testing  */
     @Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-            .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-            )
-            
-			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
-                                "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
-                                "/estilos/tienda/", "/estilos/busqueda/").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
-			)
-            .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            )
-            ;
-            
-
-		return http.build();
-	}
-
-//     @Autowired
-//     private UserDetailsService userDetailsService;
-
-//     @Autowired
-//     public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
-//         build.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-//     }
-
-//     @Bean
-//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//         http
-//                 .authorizeHttpRequests((request) -> request
-//                 .requestMatchers("/","/index","/errores/**",
-//                         "/carrito/**","/pruebas/**","/reportes/**",
-//                         "/registro/**","/js/**","/webjars/**")
-//                         .permitAll()
-//                 .requestMatchers(
-//                         "/producto/nuevo","/producto/guardar",
-//                         "/producto/modificar/**","/producto/eliminar/**",
-//                         "/categoria/nuevo","/categoria/guardar",
-//                         "/categoria/modificar/**","/categoria/eliminar/**",
-//                         "/usuario/nuevo","/usuario/guardar",
-//                         "/usuario/modificar/**","/usuario/eliminar/**",
-//                         "/reportes/**"
-//                 ).hasRole("ADMIN")
-//                 .requestMatchers(
-//                         "/producto/listado",
-//                         "/categoria/listado",
-//                         "/usuario/listado"
-//                 ).hasAnyRole("ADMIN", "VENDEDOR")
-//                 .requestMatchers("/facturar/carrito")
-//                 .hasRole("USER")
-//                 )
-//                 .formLogin((form) -> form
-//                 .loginPage("/login").permitAll())
-//                 .logout((logout) -> logout.permitAll());
-//         return http.build();
-//     }
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                )
+                
+        		.authorizeHttpRequests((authorize) -> authorize
+        			.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
+                                    "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
+                                    "/estilos/tienda/", "/estilos/busqueda/", "/registro/**").permitAll()
+                    .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+                    .requestMatchers("/productos/", "/productos/guardar", "/productos/eliminar/**",
+                                    "/productos/modificar/**", "/marcas/", "/marcas/guardar", "/marcas/eliminar/**",
+                                    "/marcas/modificar/**", "/categorias/", "/categorias/guardar", "/categorias/eliminar/**",
+                                    "/categorias/modificar/**", "/estilos/", "/estilos/guardar", "/estilos/eliminar/**",
+                                    "/estilos/modificar/**", "/usuarios/**").hasRole("ADMIN")
+        		)
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .permitAll()
+                )
+                .logout(logout -> logout
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .permitAll()
+                );
+        return http.build();
+    }
 }

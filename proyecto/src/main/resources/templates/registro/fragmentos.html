@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/template :: head}">
+        <title>Sneakers Society</title>
+    </head>
+    <body>
+
+        <!-- 1. Registro -->
+        <section th:fragment="nuevoUsuario">
+            <!-- Formulario de Registro -->
+            <div class="container text-dark">
+                <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">Registrarse</h5>
+                        <form method="POST" th:action="@{/registro/crearUsuario}" th:object="${usuario}">
+                        <div class="form-floating mb-3">
+                            <input type="username" name="username" class="form-control" id="username" th:field="*{username}" required="true">
+                            <label for="floatingInput">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="nombre" name="nombre" class="form-control" id="nombre" th:field="*{nombre}" required="true">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="apellido" name="apellido" class="form-control" id="apellido" th:field="*{apellido}" required="true">
+                            <label for="floatingInput">Apellido</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" name="email" class="form-control" id="email" th:field="*{email}" required="true">
+                            <label for="floatingInput">Email</label>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">
+                            Registrar
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Activacion -->
+        <section th:fragment="activarUsuario">
+            <!-- Formulario de Activacion -->
+            <div class="container text-dark">
+                <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="card-body p-4 p-sm-5">
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">Activación</h5>
+                        <form method="POST" th:action="@{/registro/activar}" th:object="${usuario}" enctype="multipart/form-data">
+                        <div class="form-floating mb-3">
+                            <input type="username" name="username" class="form-control" id="username" th:field="*{username}" required="true">
+                            <label for="floatingInput">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="nombre" name="nombre" class="form-control" id="nombre" th:field="*{nombre}" required="true">
+                            <label for="floatingInput">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="apellido" name="apellido" class="form-control" id="apellido" th:field="*{apellido}" required="true">
+                            <label for="floatingInput">Apellido</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" name="email" class="form-control" id="email" th:field="*{email}" required="true">
+                            <label for="floatingInput">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="tel" name="telefono" class="form-control" id="telefono" th:field="*{telefono}" required="true">
+                            <label for="floatingInput">Teléfono</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" name="password" class="form-control" id="password" th:field="*{password}" required="true">
+                            <label for="floatingInput">Password</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                            <label for="imagenFile" class="text-dark">Imagen:</label>
+                            <img class="align-items-center mt-3" id="storedImage" src="#" alt="Imagen" style="max-width: 375px;"/>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">
+                                Activar
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Recordar -->
+        <section th:fragment="recordarUsuario">
+             <!-- Formulario de Login -->
+        <div class="container text-dark">
+            <div class="row">
+              <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card border-0 shadow rounded-3 my-5">
+                  <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Recordarme</h5>
+                    <form method="POST" th:action="@{/registro/recordarUsuario}" th:object="${usuario}" class="was-validated">
+                      <div class="form-floating mb-3">
+                        <input type="username" name="username" class="form-control" id="username" placeholder="user1">
+                        <label for="floatingInput">Username</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                      </div>
+                      <div th:if="${param.error != null}" class="mb-3">
+                        <div class="alert alert-danger" role="alert">
+                          [[#{error.login}]]
+                        </div>
+                      </div>
+                      <div class="d-grid mb-3 mt-3">
+                        <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">
+                            Recordar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+    </body>
+</html>

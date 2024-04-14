@@ -9,29 +9,28 @@ import dawp.proyecto.domain.Usuario;
 
 public interface UsuarioService {
     
-    // Se obtiene un listado de usuarios en un List
+    // GetUsuarios: Se obtienen todos los usuarios
     public List<Usuario> getUsuarios();
     
-    // Se obtiene un Usuario, a partir del id de un usuario
+    // GetUsuario: Se obtiene un usuario a partir de un ID
     public Usuario getUsuario(Usuario usuario);
     
-    // Se obtiene un Usuario, a partir del username de un usuario
+    // GetUsuarioPorUsername: Se obtiene un Usuario, a partir del username
     public Usuario getUsuarioPorUsername(String username);
 
-    // Se obtiene un Usuario, a partir del username y el password de un usuario
+    // GetUsuarioPorUsernameYPassword: Se obtiene un Usuario, a partir del username y el password
     public Usuario getUsuarioPorUsernameYPassword(String username, String password);
     
-    // Se obtiene un Usuario, a partir del username y el password de un usuario
+    // GetUsuarioPorUsernameOCorreo: Se obtiene un Usuario, a partir del username o el correo
     public Usuario getUsuarioPorUsernameOCorreo(String username, String correo);
     
-    // Se valida si existe un Usuario considerando el username
+    // ExisteUsuarioPorUsernameOCorreo: Se comprueba si existe un usuario a partir del username o correo
     public boolean existeUsuarioPorUsernameOCorreo(String username, String correo);
     
-    // Se inserta un nuevo usuario si el id del usuario esta vacío
-    // Se actualiza un usuario si el id del usuario NO esta vacío
+    // Save: Se guarda un usuario nuevo o se modifica si ya existe el ID
     public void save(Usuario usuario,boolean crearRolUser);
     
-    // Se elimina el usuario que tiene el id pasado por parámetro
+    // Delete: Se elimina un usuario a partir de un ID
     public void delete(Usuario usuario);
     
 }

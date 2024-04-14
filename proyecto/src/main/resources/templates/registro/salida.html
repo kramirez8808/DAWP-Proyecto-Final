@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html class="h-100"
+      data-bs-theme="dark"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/template :: head}">
+        <title>TechShop</title>        
+    </head>
+    <body class="d-flex h-100 text-center text-white bg-dark overflow-hidden">
+        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+            <header th:replace="~{layout/template :: header}"/>
+            <main class="text-white">
+                <h1>[[${titulo}]] :)</h1>
+                <p class="text-wrap">[[${mensaje}]]</p>
+            </main>
+            <footer th:replace="~{layout/template :: footer}"/>
+        </div>
+    </body>
+
+</html>

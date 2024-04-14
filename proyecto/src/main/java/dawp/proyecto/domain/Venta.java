@@ -1,9 +1,11 @@
 package dawp.proyecto.domain;
 
-// ------ IMPORTS ------
-import lombok.Data;
+// ------ EXTERNAL IMPORTS ------
 import jakarta.persistence.*;
 import java.io.Serializable;
+import lombok.Data;
+
+// ------ INTERNAL IMPORTS ------
 
 @Data
 @Entity
@@ -26,11 +28,11 @@ public class Venta implements Serializable {
     public Venta() {
     }
 
-    public Venta(Long idVenta, Long idFactura, Long idProducto, Double precio, Integer cantidad) {
-        this.idVenta = idVenta;
+    public Venta(Long idFactura, Long idProducto, double precio, int cantidad) {
         this.idFactura = idFactura;
         this.idProducto = idProducto;
         this.precio = precio;
         this.cantidad = cantidad;
     }
+    
 }
