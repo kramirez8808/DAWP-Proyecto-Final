@@ -73,53 +73,58 @@ public class ProjectConfig implements WebMvcConfigurer {
     }
 
     /* Users para TESTING */    
-    // @Bean
-    // public UserDetailsService users() {
-    //     UserDetails admin = User.builder()
-    //             .username("admin")
-    //             .password("{noop}123")
-    //             .roles("USER", "VENDEDOR", "ADMIN")
-    //             .build();
-    //     UserDetails sales = User.builder()
-    //             .username("seller")
-    //             .password("{noop}456")
-    //             .roles("USER", "VENDEDOR")
-    //             .build();
-    //     UserDetails user = User.builder()
-    //             .username("user")
-    //             .password("{noop}789")
-    //             .roles("USER")
-    //             .build();
-    //     return new InMemoryUserDetailsManager(user, sales, admin);
-    // }
+    @Bean
+    public UserDetailsService users() {
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password("{noop}123")
+                .roles("USER", "VENDEDOR", "ADMIN")
+                .build();
+        UserDetails sales = User.builder()
+                .username("seller")
+                .password("{noop}456")
+                .roles("USER", "VENDEDOR")
+                .build();
+        UserDetails user = User.builder()
+                .username("user")
+                .password("{noop}789")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user, sales, admin);
+    }
 
-    // /*  Bean for testing  */
-    // @Bean
-	// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	// 	http
-    //         .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-    //             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-    //         )
-            
-	// 		.authorizeHttpRequests((authorize) -> authorize
-	// 			.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
-    //                             "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
-    //                             "/estilos/tienda/", "/estilos/busqueda/").permitAll()
-    //             .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
-	// 		)
-    //         .formLogin(form -> form
-    //             .loginPage("/login")
-    //             .permitAll()
-    //         )
-    //         .logout(logout -> logout
-    //             .invalidateHttpSession(true)
-    //             .deleteCookies("JSESSIONID")
-    //             .permitAll()
-    //         );
+    /*  Bean for testing  */
+    @Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+            .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+            )
+            .authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers("/facturar/carrito")
+                .hasRole("USER")
+                .anyRequest().permitAll()
+                    
+			)
+			// .authorizeHttpRequests((authorize) -> authorize
+			// 	.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
+            //                     "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
+            //                     "/estilos/tienda/", "/estilos/busqueda/").permitAll()
+            //     .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+			// )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
             
 
-	// 	return http.build();
-	// }
+		return http.build();
+	}
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -129,33 +134,33 @@ public class ProjectConfig implements WebMvcConfigurer {
         build.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                )
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http
+    //             .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+    //                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+    //             )
                 
-        		.authorizeHttpRequests((authorize) -> authorize
-        			.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
-                                    "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
-                                    "/estilos/tienda/", "/estilos/busqueda/", "/registro/**").permitAll()
-                    .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
-                    .requestMatchers("/productos/", "/productos/guardar", "/productos/eliminar/**",
-                                    "/productos/modificar/**", "/marcas/", "/marcas/guardar", "/marcas/eliminar/**",
-                                    "/marcas/modificar/**", "/categorias/", "/categorias/guardar", "/categorias/eliminar/**",
-                                    "/categorias/modificar/**", "/estilos/", "/estilos/guardar", "/estilos/eliminar/**",
-                                    "/estilos/modificar/**", "/usuarios/**").hasRole("ADMIN")
-        		)
-                .formLogin(form -> form
-                    .loginPage("/login")
-                    .permitAll()
-                )
-                .logout(logout -> logout
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll()
-                );
-        return http.build();
-    }
+    //     		.authorizeHttpRequests((authorize) -> authorize
+    //     			.requestMatchers("/", "/productos/tienda/", "/productos/detalle/**", "/marcas/tienda/",
+    //                                 "/marcas/busqueda/", "/categorias/tienda/", "/categorias/busqueda/",
+    //                                 "/estilos/tienda/", "/estilos/busqueda/", "/registro/**", "/refrescarBoton", "/carrito/**").permitAll()
+    //                 .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+    //                 .requestMatchers("/productos/", "/productos/guardar", "/productos/eliminar/**",
+    //                                 "/productos/modificar/**", "/marcas/", "/marcas/guardar", "/marcas/eliminar/**",
+    //                                 "/marcas/modificar/**", "/categorias/", "/categorias/guardar", "/categorias/eliminar/**",
+    //                                 "/categorias/modificar/**", "/estilos/", "/estilos/guardar", "/estilos/eliminar/**",
+    //                                 "/estilos/modificar/**", "/usuarios/**").hasRole("ADMIN")
+    //     		)
+    //             .formLogin(form -> form
+    //                 .loginPage("/login")
+    //                 .permitAll()
+    //             )
+    //             .logout(logout -> logout
+    //                 // .invalidateHttpSession(true)
+    //                 // .deleteCookies("JSESSIONID")
+    //                 .permitAll()
+    //             );
+    //     return http.build();
+    // }
 }

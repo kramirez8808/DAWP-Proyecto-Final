@@ -341,10 +341,12 @@
                       <h5 th:text="${producto.descripcion}" class="card-title text-dark"></h5>
                       <p class="card-text text-dark">Test</p>
                       <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                          <a th:href="@{/productos/detalle/}+${producto.idProducto}" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
-                          <a th:href="@{/producto/}+${producto.idProducto}" class="btn btn-sm btn-outline-success">Añadir al Carrito</a>
-                        </div>
+                        <form>
+                            <div class="btn-group">
+                                <a th:href="@{/productos/detalle/}+${producto.idProducto}" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
+                                <form th:replace="carrito/fragmentos :: addToCart"></form>
+                            </div>
+                        </form>
                         <small class="text-secondary">Precio: [[${producto.precio}]]</small>
                       </div>
                     </div>
@@ -383,7 +385,15 @@
                                 </div>
                                 <h3>Precio: [[${producto.precio}]]</h3>
                                 <div class="buttons mt-5 gap-3">
-                                  <button class="btn btn-success">Añadir al carrito</button>
+                                  <form th:fragment="addToCart">
+                                    <input type="hidden" name="texto" th:value="${producto.idProducto}"/>
+                                    <input type="hidden" name="texto" th:value="${producto.existencias}"/>
+                                    <button class="btn btn-success" id="addCar" 
+                                            name="addCar" onclick="addCard(this.form)" 
+                                            type="button">
+                                            Añadir al carrito
+                                    </button>
+                                </form>
                                 </div>
                             </div>
                         </div>

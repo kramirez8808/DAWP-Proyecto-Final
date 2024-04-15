@@ -113,7 +113,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="text-center p-2" th:if="${categorias == null or categorias.empty}">
+                                        <div class="text-center p-2 cover-container" th:if="${categorias == null or categorias.empty}">
                                             <span class="text-dark">Lista vacía, no existen categorías.</span>
                                         </div>
                                     </div>
@@ -259,10 +259,12 @@
                           <h5 th:text="${producto.descripcion}" class="card-title text-dark"></h5>
                           <p class="card-text text-dark">[[${producto.categoria.descripcion}]]</p>
                           <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                              <a th:href="@{/productos/detalle/}+${producto.idProducto}" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
-                              <a th:href="@{/producto/}+${producto.idProducto}" class="btn btn-sm btn-outline-success">Añadir al Carrito</a>
-                            </div>
+                            <form>
+                                <div class="btn-group">
+                                    <a th:href="@{/productos/detalle/}+${producto.idProducto}" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
+                                    <form th:replace="carrito/fragmentos :: addToCart"></form>
+                                  </div>
+                            </form>
                             <small class="text-secondary">Precio: [[${producto.precio}]]</small>
                           </div>
                         </div>

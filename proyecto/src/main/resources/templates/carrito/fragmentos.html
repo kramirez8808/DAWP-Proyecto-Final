@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/template :: head}">
+        <title>Sneakers Society</title>
+    </head>
+    <body>
+        <!-- Carrito -->
+        <li th:fragment="verCarrito" th:unless="${#lists.isEmpty(listaItems)}" class="nav-item dropdown">
+            <form action="/carrito/">
+                <button type="submit" class="btn btn-success position-relative">
+                    <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2.08416 2.7512C2.22155 2.36044 2.6497 2.15503 3.04047 2.29242L3.34187 2.39838C3.95839 2.61511 4.48203 2.79919 4.89411 3.00139C5.33474 3.21759 5.71259 3.48393 5.99677 3.89979C6.27875 4.31243 6.39517 4.76515 6.4489 5.26153C6.47295 5.48373 6.48564 5.72967 6.49233 6H17.1305C18.8155 6 20.3323 6 20.7762 6.57708C21.2202 7.15417 21.0466 8.02369 20.6995 9.76275L20.1997 12.1875C19.8846 13.7164 19.727 14.4808 19.1753 14.9304C18.6236 15.38 17.8431 15.38 16.2821 15.38H10.9792C8.19028 15.38 6.79583 15.38 5.92943 14.4662C5.06302 13.5523 4.99979 12.5816 4.99979 9.64L4.99979 7.03832C4.99979 6.29837 4.99877 5.80316 4.95761 5.42295C4.91828 5.0596 4.84858 4.87818 4.75832 4.74609C4.67026 4.61723 4.53659 4.4968 4.23336 4.34802C3.91052 4.18961 3.47177 4.03406 2.80416 3.79934L2.54295 3.7075C2.15218 3.57012 1.94678 3.14197 2.08416 2.7512Z" fill="#FFFFFF"></path> <path d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z" fill="#FFFFFF"></path> <path d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z" fill="#FFFFFF"></path> </g></svg>
+                    <span th:if="${listaTotal != 0}" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-secondary">
+                        [[${listaTotal}]]
+                    </span>
+                    <span th:if="${listaTotal == 0 or listaTotal == null}" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-secondary">
+                        0
+                    </span>
+                </button>
+            </form>            
+        </li>
+
+        <!-- Boton de Añadir al carrito -->
+        <form th:fragment="addToCart">
+            <input type="hidden" name="texto" th:value="${producto.idProducto}"/>
+            <input type="hidden" name="texto" th:value="${producto.existencias}"/>
+            <button class="btn btn-sm btn-outline-success" id="addCar" 
+                    name="addCar" onclick="addCard(this.form)" 
+                    type="button">
+                    Añadir al carrito
+            </button>
+        </form>
+
+        <!-- Ver Carrito -->
+        <section th:fragment="listadoCarrito" id="items" class="pt-5 pb-5">
+          <div class="bg-image h-100 bg-dark">
+            <div class="d-flex align-items-center h-100">
+                <div class="container">
+                  <div th:if="${items != null and !items.empty}" class="row justify-content-center">
+                    <div class="row w-100">
+                      <div class="col-lg-12 col-md-12 col-12">
+                          <h3 class="display-5 mb-2 text-center">Carrito</h3>
+                          <p class="mb-5 text-center">
+                              Hay
+                              <i class="text-info font-weight-bold">[[${listaTotal}]]</i>
+                              productos en tu carrito.
+                            </p>
+                          <table id="shoppingCart" class="table table-condensed table-responsive text-white">
+                              <thead>
+                                  <tr>
+                                      <th style="width:60%">Producto</th>
+                                      <th style="width:12%">Precio</th>
+                                      <th style="width:10%">Cantidad</th>
+                                      <th style="width:16%"></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr th:each="item, contador : ${items}">
+                                      <td data-th="Producto">
+                                          <div class="row">
+                                              <div class="col-md-3 text-left">
+                                                  <img th:src="${item.imagen}" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                              </div>
+                                              <div class="col-md-9 text-left mt-sm-2">
+                                                  <h4>[[${item.descripcion}]]</h4>
+                                              </div>
+                                          </div>
+                                      </td>
+                                      <td data-th="Precio">[[${item.precio}]]</td>
+                                      <td data-th="Cantidad">
+                                        <form id="guardar" th:action="@{/carrito/guardar/}+${item.idProducto}" method="POST">
+                                          <input type="hidden" th:value="${item.idProducto}" name="idProducto">
+                                          <input type="number" class="form-control form-control-lg text-center" style="width: 5rem;" th:value="${item.cantidad}" name="cantidad"  
+                                          min='1' th:max="${item.existencias}">
+                                        </form>
+
+                                          
+                                      </td>
+                                      <td class="actions" data-th="">
+                                          <div class="text-right">
+                                              <button class="btn btn-outline-white bg-success btn-md mb-2" type="submit" form="guardar">
+                                                <i class="fas fa-sync"></i>
+                                              </button>
+                                              <a th:href="@{/carrito/eliminar/}+${item.idProducto}" class="btn btn-outline-white bg-danger btn-md mb-2">
+                                                  <i class="fas fa-trash"></i>
+                                              </a>
+                                          </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                          <div class="float-right text-right text-center">
+                              <h4>Total:</h4>
+                              <h1>₡[[${carritoTotal}]]</h1>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mt-4 d-flex align-items-center text-center">
+                      <div class="col-sm-6 order-md-2 text-right">
+                          <a th:href="@{/facturar/carrito}" class="btn btn-success mb-4 btn-lg pl-5 pr-5">Confirmar compra</a>
+                      </div>
+                      <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                          <a th:href="@{/}" class="btn btn-outline-primary">
+                              <i class="fas fa-arrow-left mr-2"></i>Seguir comprando</a>
+                      </div>
+                  </div>
+                  </div>
+              <!-- Carrito vacío -->
+              <div th:if="${items== null or items.empty}" class="row justify-content-center">
+                <h1 class="text-white text-center mb-4">Carrito</h1>
+                <div class="col-12">
+                  <div class="text-center p-2 cover-container">
+                      <span class="text-white">Lista vacía, no hay productos en su carrito :(</span>
+                  </div>
+                  <div class="text-center">
+                    <a th:href="@{/}" class="btn btn-primary">Ir a comprar</a>
+                  </div>
+                </div>
+              </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    </body>
+</html>

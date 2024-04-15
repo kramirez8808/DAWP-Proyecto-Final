@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 // ------ INTERNAL IMPORTS ------
 import dawp.proyecto.domain.Item;
@@ -72,15 +74,52 @@ public class CarritoController {
     @GetMapping("/carrito/eliminar/{idProducto}")
     public String eliminarItem(Item item) {
         itemService.delete(item);
-        return "redirect:/carrito/listado";
+        return "redirect:/carrito/";
     }
 
     // Actualizar la cantidad de un producto en el carrito
-    @PostMapping("/carrito/guardar")
-    public String guardarItem(Item item) {
+    // @PostMapping("/carrito/guardar")
+    // public String guardarItem(Item item) {
+    //     itemService.actualiza(item);
+    //     return "redirect:/carrito/";
+    // }
+
+    // @GetMapping("/carrito/guardar/{idProducto}")
+    // public String guardarItem(@PathVariable(value="idProducto") Long idProducto,
+    //     @RequestParam(value="cantidad") Integer cantidad) {
+    //     Item item = new Item();
+    //     item.setIdProducto(idProducto);
+    //     item = itemService.get(item);
+    //     item.setCantidad(cantidad);
+    //     itemService.actualiza(item);
+    //     item = new Item();
+    //     return "redirect:/carrito/";
+    // }
+
+    // @PostMapping("/carrito/guardar/{idProducto}")
+    // public String guardarItem(@RequestParam(value="idProducto") Long idProducto,
+    //     @RequestParam(value="cantidad") Integer cantidad) {
+    //     Item item = new Item();
+    //     item.setIdProducto(idProducto);
+    //     item = itemService.get(item);
+    //     item.setCantidad(cantidad);
+    //     itemService.actualiza(item);
+    //     item = new Item();
+    //     return "redirect:/carrito/";
+    // }
+
+    @PostMapping("/carrito/guardar/{idProducto}")
+    public String guardarItem(@RequestParam(value="idProducto") Long idProducto,
+        @RequestParam(value="cantidad") Integer cantidad) {
+        Item item = new Item();
+        item.setIdProducto(idProducto);
+        item = itemService.get(item);
+        item.setCantidad(cantidad);
         itemService.actualiza(item);
-        return "redirect:/carrito/listado";
+        return "redirect:/carrito/";
     }
+
+    //Metodo para cambiar la cantidad de un producto en el carrito
 
     // Facturar el carrito
     @GetMapping("/facturar/carrito")

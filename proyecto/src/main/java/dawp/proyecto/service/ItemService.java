@@ -15,19 +15,16 @@ public interface ItemService {
     //Se recuperan todos los items
     public List<Item> gets();
     
-    //Se recupera el registro que tiene el idItem pasado por parámetro
-    //si no existe en la tabla se retorna null
+    //Retorna el item que tiene el idItem pasado como parámetro
     public Item get(Item item);
     
-    //Se elimina el registro que tiene el idItem pasado por parámetro
+    //Se elimina un producto del carrito
     public void delete(Item item);
     
-    //Si el objeto item tiene un idItem que existe en la tabla item
-    //El registro de actualiza con la nueva información
-    //Si el idItem NO existe en la tabla, se crea el registro con esa información
+    //Se añade o se actualiza un producto al carrito en caso de que exista
     public void save(Item item);
     
-    //Se actualiza el item en el carrito
+    //Se actualiza la cantidad de un item en el carrito
     public void actualiza(Item item);
     
     // Se facturan los items del carrito y se eliminan

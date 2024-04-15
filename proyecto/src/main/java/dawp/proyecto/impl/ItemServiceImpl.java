@@ -114,8 +114,6 @@ public class ItemServiceImpl implements ItemService {
     // Metodo para generar un factura de los productos del carrito
     @Override
     public void facturar() {
-        System.out.println("Facturando");
-
         //Se obtiene el usuario autenticado
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

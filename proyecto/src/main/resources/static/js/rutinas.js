@@ -18,6 +18,7 @@ function addCard(formulario) {
     var valor = formulario.elements[0].value;
     var url = '/carrito/agregar';
     url = url + '/' + valor;
+    console.log($("#resultsBlock").text());
     $("#resultsBlock").load(url);
 }
 
@@ -31,3 +32,4 @@ function cargarLista(){
     var url = '/refrescarBoton';
     $("#resultsBlock").load(url);
 }
+
