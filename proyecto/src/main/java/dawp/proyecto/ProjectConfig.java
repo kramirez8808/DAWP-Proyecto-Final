@@ -101,6 +101,11 @@ public class ProjectConfig implements WebMvcConfigurer {
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
             )
             .authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers("/productos/", "/productos/guardar", "/productos/eliminar/**",
+                "/productos/modificar/**", "/marcas/", "/marcas/guardar", "/marcas/eliminar/**",
+                "/marcas/modificar/**", "/categorias/", "/categorias/guardar", "/categorias/eliminar/**",
+                "/categorias/modificar/**", "/estilos/", "/estilos/guardar", "/estilos/eliminar/**",
+                "/estilos/modificar/**", "/usuarios/**").hasRole("ADMIN")
                 .requestMatchers("/facturar/carrito")
                 .hasRole("USER")
                 .anyRequest().permitAll()

@@ -119,8 +119,6 @@ public class CarritoController {
         return "redirect:/carrito/";
     }
 
-    //Metodo para cambiar la cantidad de un producto en el carrito
-
     // Facturar el carrito
     @GetMapping("/facturar/carrito")
     public String facturarCarrito() {
