@@ -72,26 +72,26 @@ public class ProjectConfig implements WebMvcConfigurer {
         registry.addViewController("/logout").setViewName("logout");
     }
 
-    /* Users para TESTING */    
-    @Bean
-    public UserDetailsService users() {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}123")
-                .roles("USER", "VENDEDOR", "ADMIN")
-                .build();
-        UserDetails sales = User.builder()
-                .username("seller")
-                .password("{noop}456")
-                .roles("USER", "VENDEDOR")
-                .build();
-        UserDetails user = User.builder()
-                .username("user")
-                .password("{noop}789")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user, sales, admin);
-    }
+    // /* Users para TESTING */    
+    // @Bean
+    // public UserDetailsService users() {
+    //     UserDetails admin = User.builder()
+    //             .username("admin")
+    //             .password("{noop}123")
+    //             .roles("USER", "VENDEDOR", "ADMIN")
+    //             .build();
+    //     UserDetails sales = User.builder()
+    //             .username("seller")
+    //             .password("{noop}456")
+    //             .roles("USER", "VENDEDOR")
+    //             .build();
+    //     UserDetails user = User.builder()
+    //             .username("user")
+    //             .password("{noop}789")
+    //             .roles("USER")
+    //             .build();
+    //     return new InMemoryUserDetailsManager(user, sales, admin);
+    // }
 
     /*  Bean for testing  */
     @Bean
@@ -106,8 +106,8 @@ public class ProjectConfig implements WebMvcConfigurer {
                 "/marcas/modificar/**", "/categorias/", "/categorias/guardar", "/categorias/eliminar/**",
                 "/categorias/modificar/**", "/estilos/", "/estilos/guardar", "/estilos/eliminar/**",
                 "/estilos/modificar/**", "/usuarios/**").hasRole("ADMIN")
-                .requestMatchers("/facturar/carrito")
-                .hasRole("USER")
+                .requestMatchers("error").permitAll()
+                .requestMatchers("/facturar/carrito").hasRole("USER")
                 .anyRequest().permitAll()
                     
 			)
